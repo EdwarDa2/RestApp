@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista de Cuenta</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/features/cuentas/style/style.css">
+</head>
+<body>
+
+     <div class="barra-de-tareas">
+    <a href="/src/features/vista_comandas/Comandas.html"><button class="BotonA">Comandar</button></a>
+    <button class="BotonB">Cuenta</button>
+    <a href="/src/features/panel_mesa/panelMesaMesero.html"><button class="BotonB">Mesas</button></a>
+    <div class="estado-usuario">
+      <span class="estado"></span>
+      <span class="usuario">Edwar</span>
+    </div>
+  </div>
+
+    <main class="main-container">
+        <div class="left-panel">
+            <div class="table-display-box">
+                <span class="table-label">Mesa</span>
+            </div>
+            <div class="button-group">
+                <button class="action-button secondary"><a href="/src/features/gestion_comandas/GestionComandasM.html"></a>Visualizar</button>
+            </div>
+            <button class="action-button">Imprimr</button>
+        </div>
+
+        <div class="right-panel">
+            <div class="receipt-header">
+                <h2>Restapp</h2>
+                <p>Suchiapa, CHIS</p>
+            </div>
+            <table class="receipt-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Carne asada</td>
+                        <td>$180.00</td>
+                    </tr>
+                    <tr>
+                        <td>Ensalada de pollo</td>
+                        <td>$90.00</td>
+                    </tr>
+                    <tr>
+                        <td>Camarones empanizados</td>
+                        <td>$220.00</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>Subtotal</td>
+                        <td>$490.00</td>
+                    </tr>
+                    <tr>
+                        <td>IVA</td>
+                        <td>$78.00</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td>$568.00</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>

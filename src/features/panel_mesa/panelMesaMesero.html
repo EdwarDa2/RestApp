@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel de Mesas Meseros</title>
+  <link rel="stylesheet" href="/src/features/panel_mesa/styles/stylesM.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="barra-superior">
+    <div class="lado-izquierdo">
+      <img src="/src/assets/Notificacion.png" alt="Notificación" id="btnCampana" class="icono-barra">
+      <button id="boton-agregar-aviso" class="boton-notificacion">Mis mesas</button>
+    </div>
+    <a href="/src/features/login/login.html"><img src="/src/assets/exit.png" alt="Salir" class="salir"></a>
+  </div>
+
+  <div class="contenedor">
+    <a href="#" class="mesa libre">
+      <span class="numero">01</span>
+      <img src="/src/assets/icono.png" class="icono" alt="Mesa" />
+      <span class="estado">Libre</span>
+    </a>
+    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">02</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
+    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">03</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
+    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">04</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
+    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">05</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
+    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">06</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
+    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">07</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
+    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">08</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
+    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">09</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
+    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">10</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
+    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">11</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
+    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">12</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
+    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">13</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
+    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">14</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
+    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">15</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
+  </div>
+
+  <div id="modalMesero" class="modal">
+    <div class="modal-content">
+      <p class="modal-title">Ingrese su codigo de mesero</p>
+      <input type="text" id="codigoMesero" class="modal-input" placeholder="Código...">
+      <div class="modal-buttons">
+        <button class="guardar" onclick="guardarCodigo()">Guardar</button>
+        <button class="cancelar" onclick="cerrarModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalAvisos" class="modal-avisos">
+    <div class="avisos-content">
+      <span class="cerrar-modal" onclick="cerrarModalAvisos()">×</span>
+      <h2>Panel de mesas</h2>
+      <div class="avisos-header">
+        <strong>Avisos :</strong>
+        <span id="fechaAvisos"></span>
+      </div>
+      <ul id="listaAvisos" class="avisos-lista">
+      </ul>
+    </div>
+  </div>
+
+  <a href="/src/features/mesas_asignadas/index.html"></a>
+  <script src="/src/features/panel_mesa/scripts/scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Comandar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style/StylesC.css"/>
+</head>
+<body>
+  
+  <div class="barra-de-tareas">
+    <a href=""><button class="BotonA">Comandas </button></a>
+    <a href="/src/features/cuentas/cuentas.html"><button class="BotonB" >Cuentas </button></a>
+    <button class="BotonB" id="btnMesas">Mesas</button>
+    <div class="estado-usuario">
+      <span class="estado"></span>
+      <span class="usuario">Edwar</span>
+    </div>
+  </div>
+
+
+  <div class="filtros">
+    <input class="buscar" type="search" placeholder="Buscar Producto" id="buscar-input">
+
+    <div class="selecciones">
+        <div>
+        <label class="label" for="categoria-select">Categorías</label>
+        <select id="categoria-select">
+          <option>Selecciona la categoría</option>
+        </select>
+      </div>
+      <div>
+        <label class="label" for="subcategoria-select">Subcategorías</label>
+        <select id="subcategoria-select"> 
+          <option>Selecciona la subcategoría</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="textos_tabla">
+    <h3>Productos</h3>
+    <h3>Productos seleccionados</h3>
+  </div>
+
+  <div class="contenedor">
+  <div class="tabla-contenedor"> 
+    <table id="tabla-productos">
+      <thead>
+        <tr><th>Item</th><th>Precio</th></tr>
+      </thead>
+      <tbody id="tabla-productos-body">
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flechas">
+    <img src="/src/assets/FlechaArriba.jpg" alt="Flecha Arriba" class="flechaTop">
+    <img src="/src/assets/FlechaAbajo.jpg" alt="Flecha Abajo" class="flechaBot">
+  </div>
+
+    <div class="flechas2">
+    <img src="/src/assets/FlechaArriba.jpg" alt="Flecha Arriba" class="flechaTop">
+    <img src="/src/assets/FlechaAbajo.jpg" alt="Flecha Abajo" class="flechaBot">
+  </div>
+
+  <div class="tabla-contenedor">
+    <div>
+      <h1></h1>
+      <h1></h1>
+    </div>
+    <table id="tabla-seleccionados">
+      <thead>
+        <tr><th>Cantidad</th><th>Item</th><th>Precio</th><th></th></tr>
+      </thead>
+      <tbody id="tabla-derecha-body">
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+  <div class="agregar_eliminar">
+  <button id="btnRestar" class="btn-red">-</button>
+  <div class="numero" id="contador"><span id="cantidad">1</span></div>
+  <button id="btnSumar" class="btn-green">+</button>
+</div>
+
+
+  <div class="acciones">
+      <p class="Texto">Agregar Comentario</p>
+      <div class="comentario">
+      <textarea class="com" name="" id="comentario" placeholder="Agrega un comentario"></textarea>
+      </div>
+    </div>
+
+    <div class="env_com">
+    <div>
+      <button id="btnGuardarProducto" class="guardar-boton" id="btn-guardar"">Guardar producto</button>
+    </div>
+    <div class="boton_enviar">
+        <a class="bot" href="/src/features/cuentas/cuentas.html" id="btn-enviar">ENVIAR</a>
+    </div>
+    </div>
+
+    <div id="modal-confirmar-guardar" class="modal">
+    <div class="modal-content">
+      <p>¿Desea realizar comanda?</p>
+      <button id="confirmarGuardar" class="modal-btn">Sí</button>
+      <button onclick="cerrarModal('modal-confirmar-guardar')" class="modal-btn cancel">No</button>
+    </div>
+  </div>
+
+  <div id="modal-comanda-guardada" class="modal">
+    <div class="modal-content">
+      <p>¡Comanda guardada exitosamente!</p>
+      <button onclick="cerrarModal('modal-comanda-guardada')" class="modal-btn">Aceptar</button>
+    </div>
+  </div>
+
+  <div id="modal-salir-mesas" class="modal">
+    <div class="modal-content">
+      <p>¿Desea salir al panel de mesas?</p>
+      <button id="confirmarSalir" class="modal-btn">Sí</button>
+      <button onclick="cerrarModal('modal-salir-mesas')" class="modal-btn cancel">No</button>
+    </div>
+  </div>
+  <script src="./script/comanda.js"></script>
+  <script src="./script/main.js"></script>
+</body>
+</html>

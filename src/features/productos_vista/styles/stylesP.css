@@ -1,0 +1,211 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background-color: #000;
+  color: #fff;
+  padding: 20px;
+}
+
+.Contenedor {
+  max-width: 1400px;
+  margin: 0 auto;
+  max-height: 1000px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.header a{
+  text-decoration: none;
+}
+
+.header .Flecha-atras {
+  font-size: 35px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.header h1 {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.btn-agregar {
+  font-size: 20px;
+}
+
+.btn-agregar {
+  background: transparent;
+  border: 2px solid #f59e0b;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.btn {
+  background: transparent;
+  border: 2px solid #f59e0b;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.x{
+  border-radius: 90px;
+  border: 4px solid white;
+  justify-content: center;
+  align-items: center;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-bottom: 2px;
+  padding-top: 2px;
+}
+
+
+.btn {
+  font-size: 20px;
+}
+
+.tabla_usuarios {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.tabla_usuarios thead {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.tabla_usuarios th,
+.tabla_usuarios td {
+  padding: 35px;
+  text-align: left;
+  font-size: 20px;
+}
+
+.tabla_usuarios tbody tr {
+  border-top: 1px solid #333;
+  background-color: #111;
+}
+
+.tabla_usuarios tbody tr:hover {
+  background-color: #1a1a1a;
+}
+
+/* Estilo scroll en tabla */
+.tabla_usuarios tbody {
+  display: block;
+  max-height: 450px;
+  overflow-y: auto;
+}
+.tabla_usuarios thead,
+.tabla_usuarios tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+.tabla_usuarios tbody::-webkit-scrollbar {
+  width: 0;
+}
+
+/* Selección */
+.seleccionada {
+  background-color: #f59e0b !important;
+  color: black;
+  font-weight: bold;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal-content {
+  background-color: #111;
+  padding: 30px;
+  border-radius: 20px;
+  width: 500px;
+  color: white;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: relative;
+}
+.modal-content input, .modal-content select {
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #2a2a2a;
+  color: white;
+  font-size: 16px;
+}
+.modal-content .guardar {
+  background: #f59e0b;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  border: none;
+  margin-top: 10px;
+}
+.modal-content .cerrar {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #fff;
+}
+
+/* Modal confirmar */
+.modal-content.confirm {
+  text-align: center;
+}
+.modal-content.confirm .botones {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+.modal-content.confirm .botones button {
+  padding: 8px 20px;
+  font-size: 16px;
+  border-radius: 12px;
+  font-weight: bold;
+  border: 2px solid #f59e0b;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+.modal-content.confirm .botones button.si {
+  background-color: #f59e0b;
+  color: black;
+}

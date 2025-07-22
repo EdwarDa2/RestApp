@@ -1,0 +1,188 @@
+/* --- Estilos Generales y de Fondo --- */
+:root {
+    --primary-orange: #FCA311; /* Color naranja/amarillo principal */
+    --dark-bg: #1E1E1E; /* Fondo oscuro principal */
+    --modal-bg: #2D2D2D; /* Fondo de la modal */
+    --text-color: #FFFFFF;
+    --input-text-color: #000000;
+    --border-radius-main: 12px;
+    --border-radius-small: 8px;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    /* Para centrar el botón de demostración */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#openModalBtn {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    background-color: var(--primary-orange);
+    color: var(--input-text-color);
+    border: none;
+    border-radius: var(--border-radius-main);
+    font-weight: bold;
+}
+
+/* --- Estilos de la Modal --- */
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none; /* Oculto por defecto */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: var(--modal-bg);
+    padding: 30px 40px;
+    border-radius: var(--border-radius-main);
+    position: relative;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #444;
+    color: var(--text-color);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
+    transition: background-color 0.2s;
+}
+
+.close-btn:hover {
+    background-color: #555;
+}
+
+/* --- Estilos del Formulario --- */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--primary-orange);
+    border: none;
+    border-radius: var(--border-radius-small);
+    font-size: 1rem;
+    color: var(--input-text-color);
+    box-sizing: border-box; /* Importante para que el padding no afecte el ancho */
+}
+
+.form-group input[type="text"]::placeholder {
+    color: var(--input-text-color);
+    opacity: 0.8;
+}
+
+/* --- Estilos del Selector de Fecha --- */
+.date-picker {
+    display: flex;
+    gap: 10px;
+}
+
+.date-input {
+    padding: 14px;
+    background-color: var(--primary-orange);
+    border: none;
+    border-radius: var(--border-radius-small);
+    font-size: 1rem;
+    color: var(--input-text-color);
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.date-picker .date-input:first-child {
+    width: 60px; /* Ancho para el día */
+}
+
+.date-picker .year-input {
+    width: 80px; /* Ancho para el año */
+}
+
+.select-wrapper {
+    flex-grow: 1; /* Ocupa el espacio restante */
+    position: relative;
+}
+
+.date-select {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--primary-orange);
+    border: none;
+    border-radius: var(--border-radius-small);
+    font-size: 1rem;
+    color: var(--input-text-color);
+    -webkit-appearance: none; /* Quita la flecha por defecto en Safari/Chrome */
+    -moz-appearance: none; /* Quita la flecha por defecto en Firefox */
+    appearance: none; /* Quita la flecha por defecto */
+    cursor: pointer;
+}
+
+/* Flecha personalizada para el select */
+.select-wrapper::after {
+    content: '▾';
+    font-size: 1.5rem;
+    color: var(--input-text-color);
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Para que se pueda hacer clic en el select */
+}
+
+
+/* --- Estilos del Botón de Enviar --- */
+.submit-btn {
+    padding: 16px;
+    background-color: var(--primary-orange);
+    border: none;
+    border-radius: var(--border-radius-small);
+    color: var(--input-text-color);
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #e0920f; /* Un naranja ligeramente más oscuro */
+}

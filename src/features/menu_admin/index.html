@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Interactivo</title>
+    <link rel="stylesheet" href="/src/features/menu_admin/style/style.css">
+</head>
+<body>
+    <div class="menu-container">
+        <div class="contenedor">
+            <h1 class="menu-title">Menu</h1>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <img src="/src/assets/estadistica.png" alt="Estadísticas" id="btnMostrarGrafica">
+                    <span id="btnMostrarGrafica">Estadísticas</span>
+                </div>
+                    <div id="modalGrafica" class="modal-oscuro">
+                        <div class="contenido-modal">
+                            
+                             <span class="cerrar" id="cerrarModalGrafica">&times;</span>
+                             <h2>Ganancia por mesa</h2>
+                             <div class="canvas-container">
+                                <canvas id="graficoGananciaMesa"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                <div class="menu-item">
+                    <a href="/src/features/Gestion_usuarios/Usuarios.html"><img src="/src/assets/user.png" alt="Usuarios"></a>
+                    <span>Usuarios</span>
+                </div>
+                <div class="menu-item">
+                    <a href="/src/features/panel_mesa/PanelMesa.html"><img src="/src/assets/table.png" alt="Mesas"></a>
+                    <span>Mesas</span>
+                </div>
+                <div class="menu-item">
+                    <a href="/src/features/login/login.html"><img src="/src/assets/salir.png" alt="Salir"></a>
+                    <span>Salir</span>
+                </div>
+                <div class="menu-item">
+                    <a href="/src/features/productos_vista/agregar_productos.html"><img src="/src/assets/IconoP.png" alt="Items"></a>
+                    <span>Items</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./script/script.js"></script>
+</body>
+</html>

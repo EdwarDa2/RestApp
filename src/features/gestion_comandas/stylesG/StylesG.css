@@ -1,0 +1,176 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background-color: #000;
+  color: #fff;
+  padding: 20px;
+}
+
+.Contenedor {
+  max-width: 1400px;
+  margin: 0 auto;
+  max-height: 1000px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.header a{
+  text-decoration: none;
+  font-weight: bold;
+  color: #fff;
+}
+
+.header .Flecha-atras {
+  font-size: 45px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.header h1 {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.btn-cancelar {
+  background: transparent;
+  border: 2px solid #f59e0b;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.x{
+  border-radius: 90px;
+  border: 4px solid white;
+  justify-content: center;
+  align-items: center;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+
+.btn-cancelar span {
+  font-size: 20px;
+}
+
+.comandas-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.comandas-tabla thead {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.comandas-tabla th,
+.comandas-tabla td {
+  padding: 35px;
+  text-align: left;
+  font-size: 20px;
+}
+
+.comandas-tabla tbody tr {
+  border-top: 1px solid #333;
+  background-color: #111;
+}
+
+.comandas-tabla tbody tr:hover {
+  background-color: #1a1a1a;
+}
+
+/* Fila seleccionada */
+.comandas-tabla tbody tr.seleccionada {
+  background-color: #333 !important;
+  outline: 2px solid #f59e0b;
+}
+
+/* Scroll si hay muchas filas */
+.comandas-tabla tbody {
+  display: block;
+  max-height: 600px; /* ajusta si necesitas menos */
+  overflow-y: auto;
+}
+
+.comandas-tabla thead,
+.comandas-tabla tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+/* Modal */
+.modal-confirmacion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-contenido {
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 20px 30px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 0 20px #000;
+}
+
+.modal-contenido p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.modal-contenido .botones {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.modal-contenido button {
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+}
+
+.modal-contenido .btn-si {
+  background: #f59e0b;
+  color: black;
+}
+
+.modal-contenido .btn-no {
+  background: black;
+  border: 2px solid #f59e0b;
+  color: white;
+}
+

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal de Aviso</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    
+    <button id="openModalBtn">Crear Nuevo Aviso</button>
+
+    <!-- La capa oscura de fondo -->
+    <div id="modal-container" class="modal-container">
+        
+        <!-- El contenido de la modal -->
+        <div class="modal-content">
+            
+            <button class="close-btn">×</button>
+
+            <form>
+                <div class="form-group">
+                    <label for="aviso-texto">Texto</label>
+                    <input type="text" id="contenido" placeholder="Ingrese el aviso">
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha</label>
+                    <div class="date-picker">
+                   <input type="text" id="año" value="" placeholder="Año" aria-label="Año">
+                    <input type="text" id="mes" value="" placeholder="Mes" aria-label="Mes">
+                    <input type="text" id="dia" value="" placeholder="Día" aria-label="Día">
+
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn" id="subirBtn">Subir aviso</button>
+            </form>
+
+        </div>
+    </div>
+
+    <script src="aviso.js"></script>
+</body>
+</html>

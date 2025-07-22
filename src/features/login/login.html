@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RestApp - Inicio de Sesión</title>
+  <link rel="stylesheet" href="stylesl/estilos.css">
+</head>
+<body>
+  <div class="contenedor">
+    <h1>BIENVENIDO<br><span>A RESTAPP</span></h1>
+    <h2>INICIAR SESIÓN</h2>
+
+    <select class="opcion" id="usuario">
+      <option selected disabled>Selecciona tu usuario</option>
+      <option>Administrador</option>
+      <option>Mesero</option>
+    </select>
+
+    <div class="contraseña">
+      <input type="password" name="password" class="opcion2" placeholder="Ingresa tu contraseña" id="contraseña">
+    </div>
+
+    <div class="boton_acceso">
+      <button class="boton" onclick="redireccionar()">Acceder</button>
+    </div>
+  </div>
+
+  <script src="/src/features/login/scrip/scrip.js"></script>
+</body>
+</html>

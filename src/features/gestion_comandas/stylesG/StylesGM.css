@@ -1,0 +1,94 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background-color: #000;
+  color: #fff;
+  padding: 20px;
+}
+
+.Contenedor {
+  max-width: 1400px;
+  margin: 0 auto;
+  max-height: 1000px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.header .Flecha-atras {
+  font-size: 35px;
+  cursor: pointer;
+  margin-right: 60px;
+  justify-self: left;
+}
+
+.header h1 {
+  font-size: 32px;
+  font-weight: 700; 
+  justify-self: center;
+}
+
+.btn-cancelar {
+  background: transparent;
+  border: 2px solid #f59e0b;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.x{
+  border-radius: 90px;
+  border: 4px solid white;
+  justify-content: center;
+  align-items: center;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-bottom: 2px;
+  padding-top: 2px;
+}
+
+
+.ntn-cancelar span {
+  font-size: 20px;
+}
+
+.comandas-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.comandas-tabla thead {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.comandas-tabla th,
+.comandas-tabla td {
+  padding: 35px;
+  text-align: left;
+  font-size: 20px;
+}
+
+.comandas-tabla tbody tr {
+  border-top: 1px solid #333;
+  background-color: #111;
+}
+
+.comandas-tabla tbody tr:hover {
+  background-color: #1a1a1a;
+}

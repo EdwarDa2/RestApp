@@ -1,0 +1,68 @@
+body {
+  margin: 0;
+  background-color: #000;
+  font-family: Arial, sans-serif;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background-color: #141414;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  width: 1000px;
+height: 550px;
+}
+
+.container h1 {
+  position: relative; 
+    top: -50px; 
+  margin-bottom: 30px;
+  font-size: 32px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 200px);
+  grid-gap: 40px;
+  justify-content: center;
+}
+
+.mesa {
+  position: relative;
+  top: -70px;  
+  background-color: black;
+  border: 2px solid orange;
+  border-radius: 12px;
+  width: 150px;
+  height: 150px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.mesa .numero {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.icono {
+  width: 100px;
+  height: 100px;
+  margin-top: 10px;
+  /* Aquí puedes insertar el ícono con background-image o SVG */
+  background-image: url(/src/assets/tables.png); /* reemplaza con url('ruta/icono.svg') */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}

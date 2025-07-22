@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apertura de mesas</title>
+  <link rel="stylesheet" href="/src/features/apertura_mesa/style/styleM.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <div class="container">
+    <h1>Apertura de mesas</h1>
+    <div class="form">
+      <div class="left">
+        <label for="personas">Número de personas</label>
+        <div class="botones-personas">
+          <button class="btn minus">−</button>
+          <span class="count" id="num-personas-display">0</span>
+          <button class="btn plus">+</button>
+        </div>
+
+        <label for="clave">Clave</label>
+        <input type="password" id="clave" placeholder="***************" />
+
+        <div class="acciones">
+          <button class="guardar" id="open-guardar-modal">Guardar</button>
+          <button class="cancelar" id="open-cancelar-modal">Cancelar</button>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="mesa-box">
+          <img src="/src/assets/icon mesa.png" alt="Icono Mesa" class="mesa-img" />
+          <span class="mesa-numero-display" id="mesa-seleccionada-numero"></span>
+        </div>
+      </div>
+    </div>
+    <a href="/src/features/panel_mesa/PanelMesa.html" class="volver">Volver al listado de mesas</a>
+  </div>
+
+  <div id="modal-confirmar-guardar-apertura" class="modal">
+    <div class="modal-content">
+      <p>¿Está seguro de guardar los datos?</p>
+      <button id="confirmarGuardarApertura" class="modal-btn">Sí</button>
+      <button onclick="cerrarModal('modal-confirmar-guardar-apertura')" class="modal-btn cancel">No</button>
+    </div>
+  </div>
+
+  <div id="modal-confirmar-cancelar-apertura" class="modal">
+    <div class="modal-content">
+      <p>¿Desea cancelar los datos?</p>
+      <button id="confirmarCancelarApertura" class="modal-btn">Sí</button>
+      <button onclick="cerrarModal('modal-confirmar-cancelar-apertura')" class="modal-btn cancel">No</button>
+    </div>
+  </div>
+
+  <script src="/src/features/apertura_mesa/java/java.js"></script>
+</body>
+</html>
