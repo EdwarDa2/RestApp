@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // Rutas consistentes y posiblemente diferentes archivos por rol
         if (rol === 'admin') {
-          window.location.href = '/src/features/menu_admin/menuAdmin.html';
+          window.location.href = '/src/features/menu_admin/index.html';
         } else if (rol === 'mesero') {
           window.location.href = '/src/features/panel_mesa/panelMesaMesero.html';
         } else {
