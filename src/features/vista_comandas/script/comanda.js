@@ -3,6 +3,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const subcatSelect = document.getElementById('subcategoria-select');
     const productosContainer = document.getElementById('tabla-productos-body');
 
+    fetch('http://localhost:7000/productos')
+  .then(response => response.json())
+  .then(data => {
+    const tbody = document.getElementById('tabla-productos-body');
+
+    // Limpiar antes de insertar
+    tbody.innerHTML = '';
+
+    data.forEach(producto => {
+      const fila = document.createElement('tr');
+
+      const celdaNombre = document.createElement('td');
+      celdaNombre.textContent = producto.nombre;
+
+      const celdaPrecio = document.createElement('td');
+      celdaPrecio.textContent = `$${producto.precio.toFixed(2)}`;
+
+      fila.appendChild(celdaNombre);
+      fila.appendChild(celdaPrecio);
+      tbody.appendChild(fila);
+    });
+  })
+  .catch(error => console.error('Error al cargar los productos:', error));
+
     // Cargar las categorías desde la API
     fetch('http://localhost:7000/categorias')
         .then(response => response.json())
