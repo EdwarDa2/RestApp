@@ -200,3 +200,66 @@ document.addEventListener('DOMContentLoaded', () => {
         tablaScrollDerecha.scrollBy({ top: -100, behavior: 'smooth' });
     });
 });
+
+document.getElementById('btn-enviar').addEventListener('click', function(e) {
+    e.preventDefault();
+
+    // Recolectar datos de los productos seleccionados
+    const productos = [];
+    const rows = document.querySelectorAll('#tabla-derecha-body tr');
+    rows.forEach(row => {
+        const cantidad = row.querySelector('td:nth-child(1)').textContent;
+        const nombre = row.querySelector('td:nth-child(2)').textContent;
+        productos.push({ cantidad, nombre });
+    });
+
+    // Obtener comentario
+    const comentario = document.getElementById('comentario').value || '';
+
+    // Crear el PDF usando jsPDF
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({
+        unit: 'mm', // Utilizamos milímetros como unidad
+        format: [58, 80] // Configuramos el tamaño de la página en 58mm x 80mm
+    });
+
+    // Establecer la fuente más pequeña para que quepan todos los datos
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(5); // Reducimos aún más el tamaño de la fuente
+
+    // Encabezado RESTAPP
+    doc.setFontSize(8); // Aumentamos un poco el encabezado para el título
+    doc.text('RESTAPP', 10, 10); // Título en la parte superior
+
+    // Líneas para separar las columnas
+    const columnWidth = 18; // Ancho para cada columna (ajustado para no desbordar)
+    const startX = 10; // Margen izquierdo
+    let yPosition = 18; // Comenzamos un poco más abajo para evitar que se solape con el título
+
+    // Títulos de las columnas: Cantidad | Producto
+    doc.text('Cantidad', startX, yPosition);
+    doc.text('Producto', startX + columnWidth + 2, yPosition); // Ajuste para las dos columnas
+    yPosition += 5; // Espacio entre el encabezado y los datos
+
+    // Agregar los productos al PDF (columnas: Cantidad, Producto)
+    productos.forEach(producto => {
+        doc.text(producto.cantidad, startX, yPosition);
+        
+        // Dividir el nombre del producto en varias líneas si es necesario
+        const maxWidth = 35; // Ancho máximo para el nombre del producto
+        const nombreDividido = doc.splitTextToSize(producto.nombre, maxWidth); // Divide el texto
+        doc.text(nombreDividido, startX + columnWidth + 2, yPosition); // Escribe el texto dividido
+        yPosition += (nombreDividido.length * 5); // Aumenta la posición en función de la cantidad de líneas
+    });
+
+    // Agregar comentario
+    if (comentario) {
+        yPosition += 4; // Espacio entre productos y comentario
+        doc.text('Comentario:', startX, yPosition);
+        yPosition += 5;
+        doc.text(comentario, startX, yPosition);
+    }
+
+    // Guardar el PDF
+    doc.save('comanda.pdf');
+});
