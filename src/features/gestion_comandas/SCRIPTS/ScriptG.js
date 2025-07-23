@@ -55,3 +55,33 @@ function mostrarConfirmacion(numero, nombre) {
   });
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const tablaComandas = document.getElementById('tablaComandas').getElementsByTagName('tbody')[0];
+    
+    // Función para obtener las comandas desde la API
+    async function obtenerComandas() {
+        try {
+            const response = await fetch('http://localhost:7000/comandas');  // Asegúrate de que esta URL esté correcta
+            const data = await response.json();
+            
+            // Limpiar la tabla antes de agregar nuevos datos
+            tablaComandas.innerHTML = '';
+            
+            // Iterar sobre los datos y agregar cada comanda como una nueva fila en la tabla
+            data.forEach(comanda => {
+                const row = tablaComandas.insertRow();
+                row.innerHTML = `
+                    <td>${comanda.id_comanda}</td>
+                    <td>${comanda.id_mesa}</td>
+                    <td>${comanda.fecha_hora}</td>
+                `;
+            });
+        } catch (error) {
+            console.error('Error al obtener las comandas:', error);
+        }
+    }
+
+    // Llamada a la función para cargar los datos
+    obtenerComandas();
+});
+
