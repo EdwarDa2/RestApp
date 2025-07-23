@@ -1,4 +1,6 @@
-let contadorMesas = 2; 
+// Script específico para el panel de mesas del mesero.
+// Se encarga de abrir el modal para capturar el código de mesero y de mostrar avisos.
+
 const modal = document.getElementById("modalMesero");
 const modalAvisos = document.getElementById('modalAvisos');
 const listaAvisos = document.getElementById('listaAvisos');
@@ -19,54 +21,14 @@ function guardarCodigo() {
     alert("Por favor ingrese un código");
     return;
   }
-
+  // Guardamos el código del mesero en localStorage para usarlo al listar mesas asignadas
+  localStorage.setItem('meseroId', codigo);
   window.location.href = "/src/features/mesas_asignadas/index.html";
 }
 
 
-function inicializarMesaEvents(mesaElement) {
-    const numeroMesa = mesaElement.querySelector('.numero').textContent;
-    mesaElement.href = `/src/features/apertura_mesa/vista.html?mesa=${numeroMesa}`;
-
-    const eliminar = mesaElement.querySelector('.icono-eliminar');
-    if (eliminar) {
-        eliminar.addEventListener('click', (e) => {
-            e.preventDefault(); 
-            mesaElement.remove();
-        });
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    const mesaInicial = document.querySelector('.mesa');
-    if (mesaInicial) {
-        inicializarMesaEvents(mesaInicial);
-    }
-
-    document.getElementById('btn-agregar-mesa').addEventListener('click', () => {
-        const contenedor = document.querySelector('.contenedor');
-
-        const nuevaMesa = document.createElement('a');
-        const numeroActual = contadorMesas.toString().padStart(2, '0'); 
-
-        nuevaMesa.className = "mesa libre";
-        nuevaMesa.innerHTML = `
-            <span class="numero">${numeroActual}</span>
-            <img src="/src/assets/icono.png" class="icono" alt="Mesa" />
-            <span class="estado">Libre</span>
-            <div class="icono-eliminar">
-                <img src="/src/assets/eliminar.png" alt="Eliminar">
-            </div>
-        `;
-
-        inicializarMesaEvents(nuevaMesa);
-
-        contenedor.appendChild(nuevaMesa);
-        contadorMesas++; 
-    });
-
-    
-});
+// El código a continuación era para administrar mesas (agregar/eliminar) en el panel del administrador.
+// Para el panel de mesero no se necesita agregar ni eliminar mesas, por lo que se omite.
 
 async function cargarAvisos() {
 

@@ -40,17 +40,24 @@ function cargarMesas() {
     .then(mesas => {
       contenedorMesas.innerHTML = "";  // Limpiar contenedor antes de cargar
       mesas.forEach(mesa => {
-        // Crear el enlace de la mesa
+        // Crear el enlace de la mesa. Dependiendo del estado, la mesa se redirige a apertura (libre) o a comandas (ocupada)
         const enlaceMesa = document.createElement("a");
-        enlaceMesa.className = "aviso mesa " + (mesa.status ? "libre" : "ocupada");  // Usar clases para el diseño de avisos
-        enlaceMesa.href = `/src/features/apertura_mesa/vista.html?mesa=${mesa.num_mesa}`; // Redirigir al hacer clic
+        enlaceMesa.className = "aviso mesa " + (mesa.status ? "libre" : "ocupada");
+        // Incluir el id de la mesa en la URL para poder actualizarla posteriormente
+        if (mesa.status) {
+          // Mesa libre: enviar a la vista de apertura. Pasamos también el id de la mesa
+          enlaceMesa.href = `/src/features/apertura_mesa/vista.html?mesa=${mesa.num_mesa}&id=${mesa.id_mesa}`;
+        } else {
+          // Mesa ocupada: enviar directamente a la vista de comandas
+          enlaceMesa.href = `/src/features/vista_comandas/Comandas.html?mesa=${mesa.num_mesa}&id=${mesa.id_mesa}`;
+        }
         enlaceMesa.innerHTML = `
           <div class="aviso-contenido">
             <span class="numero">${mesa.num_mesa}</span>
             <img src="/src/assets/icono.png" class="icono" alt="Mesa" />
             <span class="estado">${mesa.status ? "Libre" : "Ocupada"}</span>
           </div>
-          <div class="icono-eliminar" data-id="${mesa.id_mesa}">🗑️</div> <!-- Ícono de eliminar -->
+          <img src="/src/assets/eliminar.png" class="icono-eliminar" data-id="${mesa.id_mesa}" />
         `;
 
         // Asegurarnos de que el icono de eliminar esté centrado y dentro de la mesa
@@ -83,53 +90,3 @@ function eliminarMesa(id) {
     })
     .catch(err => console.error("Error al eliminar la mesa:", err));
 }
-document.addEventListener('DOMContentLoaded', () => {
-    obtenerMesas();  // Fetch the tables when the page loads
-});
-
-// Function to check the table status and redirect accordingly
-const verificarEstadoMesa = async (mesaId) => {
-    const response = await fetch(`http://localhost:7000/mesas/${mesaId}`);
-    const mesa = await response.json();
-
-    if (mesa.status) {
-        // If it's free, allow the user to open it
-        window.location.href = "/src/features/apertura_mesa/vista.html";
-    } else {
-        // If it's occupied, redirect to comandas
-        window.location.href = "/comandas.html";
-    }
-};
-
-// Function to update the table status to "ocupada" and redirect to the opening page
-const actualizarEstadoMesa = async (mesaId) => {
-    const response = await fetch(`http://localhost:7000/mesas/${mesaId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: false })  // Occupy the table
-    });
-
-    if (response.ok) {
-        // Redirect to the mesa opening page
-        window.location.href = "/src/features/apertura_mesa/vista.html";
-    } else {
-        console.error('Error al actualizar estado de mesa');
-    }
-};
-
-// Function to fetch and display all tables
-const obtenerMesas = async () => {
-    const response = await fetch("http://localhost:7000/mesas");
-    const mesas = await response.json();
-
-    mesas.forEach(mesa => {
-        const mesaElement = document.createElement('div');
-        mesaElement.innerHTML = `
-            <div class="mesa ${mesa.status ? 'libre' : 'ocupada'}" 
-                onclick="verificarEstadoMesa(${mesa.id_mesa})">
-                Mesa ${mesa.num_mesa}
-            </div>
-        `;
-        document.getElementById('contenedor-mesas').appendChild(mesaElement);
-    });
-};
