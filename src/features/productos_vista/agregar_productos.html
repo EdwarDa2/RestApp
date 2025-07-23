@@ -5,34 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Comandas</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="/src/features/productos_vista/styles/stylesP.css" />
+  <link rel="stylesheet" href="./styles/stylesP.css" />
 </head>
 <body>
   <div class="Contenedor">
     <header class="header">
       <a href="/src/features/menu_admin/index.html"><div class="Flecha-atras">⟵</div></a>
-      <h1>Items</h1>
+      <h1>Productos</h1>
        <button class="btn-agregar">
-      <span><div class="x">+</div></span><div class="btn-agragar">Agregar Item</div>
+      <span><div class="x">+</div></span><div class="btn-agragar">Agregar Producto</div>
       </button>
-      <button class="btn">
-        <span><div class="x">X</div></span><div>Eliminar Item</div>
+      <button class="btn" id="btnEliminarSeleccionado">
+        <span><div class="x">X</div></span><div>Eliminar Producto</div>
       </button>
     </header>
 
     <table class="tabla_usuarios">
       <thead>
         <tr>
-          <th>Nombre del Item</th>
+          <th>Nombre del Producto</th>
           <th>Precio</th>
-          <th>Categoria</th>
-          <th>SubCategoria</th>
+          <th>Categoría</th>
+          <th>Subcategoría</th>
         </tr>
       </thead>
+      <tbody id="tabla-productos-body">
+      </tbody>
     </table>
   </div>
 
-  <script src="/src/features/productos_vista/Script/ScriptA.js"></script>
+
+ <div id="modal-agregar" class="modal">
+  <div class="modal-content">
+    <span class="cerrar">&times;</span>
+    <h2>Ingrese el Nombre del producto:</h2>
+    <input type="text" id="nombre" placeholder="Nombre del producto">
+
+    <h2>Ingrese el Precio:</h2>
+    <input type="number" id="precio" placeholder="Ej. 12.50" step="0.01">
+
+    <div class="selects">
+      <label for="categoria"></label>
+      <select id="categoria">
+        <option value="" disabled selected>Selecciona la categoría</option>
+      </select>
+      <br></br>
+      <label for="subcategoria"></label>
+      <select id="subcategoria">
+        <option value="" disabled selected>Selecciona la subcategoría</option>
+      </select>
+    </div>
+    <button class="guardar" id="guardarProducto" disabled>Guardar Producto</button>
+  </div>
+</div>
+
+  <script src="./Script/ScriptA.js"></script>
 
 </body>
 </html>

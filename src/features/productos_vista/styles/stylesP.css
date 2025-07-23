@@ -135,6 +135,7 @@ body {
   background-color: #f59e0b !important;
   color: black;
   font-weight: bold;
+  background-color: #f0f0f0; /* Resaltado de la fila seleccionada */
 }
 
 /* Modal */
@@ -209,3 +210,4 @@ body {
   background-color: #f59e0b;
   color: black;
 }
+
