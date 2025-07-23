@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             body: JSON.stringify({
                 "contenido": contenido,
-                "id_admin": 1
+                "id_usuario": 1
             })
         })
         .then(response => {
