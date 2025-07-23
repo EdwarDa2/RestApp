@@ -50,7 +50,7 @@ function cargarMesas() {
             <img src="/src/assets/icono.png" class="icono" alt="Mesa" />
             <span class="estado">${mesa.status ? "Libre" : "Ocupada"}</span>
           </div>
-          <img src="/src/assets/eliminar.png" class="icono-eliminar" data-id="${mesa.id_mesa}" />   <!-- Ícono de eliminar -->
+          <div class="icono-eliminar" data-id="${mesa.id_mesa}">🗑️</div> <!-- Ícono de eliminar -->
         `;
 
         // Asegurarnos de que el icono de eliminar esté centrado y dentro de la mesa
@@ -83,3 +83,53 @@ function eliminarMesa(id) {
     })
     .catch(err => console.error("Error al eliminar la mesa:", err));
 }
+document.addEventListener('DOMContentLoaded', () => {
+    obtenerMesas();  // Fetch the tables when the page loads
+});
+
+// Function to check the table status and redirect accordingly
+const verificarEstadoMesa = async (mesaId) => {
+    const response = await fetch(`http://localhost:7000/mesas/${mesaId}`);
+    const mesa = await response.json();
+
+    if (mesa.status) {
+        // If it's free, allow the user to open it
+        window.location.href = "/src/features/apertura_mesa/vista.html";
+    } else {
+        // If it's occupied, redirect to comandas
+        window.location.href = "/comandas.html";
+    }
+};
+
+// Function to update the table status to "ocupada" and redirect to the opening page
+const actualizarEstadoMesa = async (mesaId) => {
+    const response = await fetch(`http://localhost:7000/mesas/${mesaId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: false })  // Occupy the table
+    });
+
+    if (response.ok) {
+        // Redirect to the mesa opening page
+        window.location.href = "/src/features/apertura_mesa/vista.html";
+    } else {
+        console.error('Error al actualizar estado de mesa');
+    }
+};
+
+// Function to fetch and display all tables
+const obtenerMesas = async () => {
+    const response = await fetch("http://localhost:7000/mesas");
+    const mesas = await response.json();
+
+    mesas.forEach(mesa => {
+        const mesaElement = document.createElement('div');
+        mesaElement.innerHTML = `
+            <div class="mesa ${mesa.status ? 'libre' : 'ocupada'}" 
+                onclick="verificarEstadoMesa(${mesa.id_mesa})">
+                Mesa ${mesa.num_mesa}
+            </div>
+        `;
+        document.getElementById('contenedor-mesas').appendChild(mesaElement);
+    });
+};
