@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+
   <div class="barra-superior">
     <div class="lado-izquierdo">
       <img src="/src/assets/Notificacion.png" alt="Notificación" id="btnCampana" class="icono-barra">
@@ -17,26 +18,7 @@
     <a href="/src/features/login/login.html"><img src="/src/assets/exit.png" alt="Salir" class="salir"></a>
   </div>
 
-  <div class="contenedor">
-    <a href="#" class="mesa libre">
-      <span class="numero">01</span>
-      <img src="/src/assets/icono.png" class="icono" alt="Mesa" />
-      <span class="estado">Libre</span>
-    </a>
-    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">02</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
-    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">03</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
-    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">04</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
-    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">05</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
-    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">06</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
-    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">07</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
-    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">08</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
-    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">09</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
-    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">10</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
-    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">11</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
-    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">12</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
-    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">13</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
-    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">14</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
-    <a href="/src/features/apertura_mesa/vistaMesero.html" class="mesa libre"><span class="numero">15</span><img src="/src/assets/icono.png" class="icono" alt="Mesa" /><span class="estado">Libre</span></a>
+   <div class="contenedor" id="contenedor-mesas">
   </div>
 
   <div id="modalMesero" class="modal">
@@ -63,7 +45,10 @@
     </div>
   </div>
 
+  <script src="/src/features/panel_mesa/scripts/scriptsM.js"></script>
+  <script src="/src/features/panel_mesa/scripts/avisosM.js"></script>
   <a href="/src/features/mesas_asignadas/index.html"></a>
-  <script src="/src/features/panel_mesa/scripts/scripts.js"></script>
+
+
 </body>
 </html>

@@ -24,15 +24,16 @@ body {
 }
 
 .contenedor {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+  gap: 30px;
+  margin-top: 20px;
   background-color: var(--color-base);
-  width: 1300px;
   border-radius: 10px;
   margin: 10px auto;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 30px;
   padding: 40px;
   box-sizing: border-box;
+  width: 1300px;
 }
 
 .mesa {
@@ -43,24 +44,29 @@ body {
   height: 150px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   position: relative;
-  color: var(--color-texto);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-  text-decoration: none; 
 }
 
-.mesa:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+.mesa .estado {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--color-texto);
 }
+
+
 
 .numero {
   color: #ffffff;
   font-weight: bold;
   font-size: 20px;
+  position: relative;
+  top: -70px;
+  left: -10px;
+  background-color: transparent;
+  text-decoration: none;
 }
 
 .icono {
@@ -68,7 +74,16 @@ body {
   height: 80px;
   margin: 0 auto;
   object-fit: contain;
+  position: relative;
+  left: -7px;
+ 
 }
+
+.mesa:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Add a custom focus style */
+}
+
 
 .estado {
   background-color: var(--color-border);
@@ -78,6 +93,9 @@ body {
   border-radius: 10px;
   padding: 3px 10px;
   align-self: flex-end;
+  position: relative;
+  top: 10px;
+  left: 20px;
 }
 
 .icono-eliminar {

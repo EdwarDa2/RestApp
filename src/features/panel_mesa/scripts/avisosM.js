@@ -1,61 +1,74 @@
+let contadorMesas = 2; 
+const modal = document.getElementById("modalMesero");
+const modalAvisos = document.getElementById('modalAvisos');
+const listaAvisos = document.getElementById('listaAvisos');
+const fechaAvisos = document.getElementById('fechaAvisos');
+
+document.getElementById("boton-agregar-aviso").addEventListener("click", function (event) {
+  event.preventDefault(); 
+  modal.style.display = "flex";
+});
+
+function cerrarModal() {
+  modal.style.display = "none";
+}
+
+function guardarCodigo() {
+  const codigo = document.getElementById("codigoMesero").value;
+  if (codigo.trim() === "") {
+    alert("Por favor ingrese un código");
+    return;
+  }
+
+  window.location.href = "/src/features/mesas_asignadas/index.html";
+}
+
+
+function inicializarMesaEvents(mesaElement) {
+    const numeroMesa = mesaElement.querySelector('.numero').textContent;
+    mesaElement.href = `/src/features/apertura_mesa/vista.html?mesa=${numeroMesa}`;
+
+    const eliminar = mesaElement.querySelector('.icono-eliminar');
+    if (eliminar) {
+        eliminar.addEventListener('click', (e) => {
+            e.preventDefault(); 
+            mesaElement.remove();
+        });
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    const modalContainer = document.getElementById('modal-container');
-    const openModalBtn = document.getElementById('openModalBtn');
-    const closeModalBtn = document.querySelector('.close-btn');
+    const mesaInicial = document.querySelector('.mesa');
+    if (mesaInicial) {
+        inicializarMesaEvents(mesaInicial);
+    }
 
-    const subirBtn = document.getElementById("subirBtn");
-    const modalAvisos = document.getElementById('modalAvisos');
-    const listaAvisos = document.getElementById('listaAvisos');
-    const fechaAvisos = document.getElementById('fechaAvisos');
-    const btnAgregar = document.getElementById("btn-agregar-mesa");
-    const contenedor = document.getElementById("contenedor-mesas");
-    let contador = contenedor.querySelectorAll(".mesa").length;
+    document.getElementById('btn-agregar-mesa').addEventListener('click', () => {
+        const contenedor = document.querySelector('.contenedor');
 
-    openModalBtn.addEventListener('click', () => {
-        modalContainer.style.display = 'flex';
+        const nuevaMesa = document.createElement('a');
+        const numeroActual = contadorMesas.toString().padStart(2, '0'); 
+
+        nuevaMesa.className = "mesa libre";
+        nuevaMesa.innerHTML = `
+            <span class="numero">${numeroActual}</span>
+            <img src="/src/assets/icono.png" class="icono" alt="Mesa" />
+            <span class="estado">Libre</span>
+            <div class="icono-eliminar">
+                <img src="/src/assets/eliminar.png" alt="Eliminar">
+            </div>
+        `;
+
+        inicializarMesaEvents(nuevaMesa);
+
+        contenedor.appendChild(nuevaMesa);
+        contadorMesas++; 
     });
 
-    closeModalBtn.addEventListener('click', () => {
-        modalContainer.style.display = 'none';
-    });
+    
+});
 
-    modalContainer.addEventListener('click', (event) => {
-        if (event.target === modalContainer) {
-            modalContainer.style.display = 'none';
-        }
-    });
-
-    subirBtn.addEventListener("click", (event) => {
-        event.preventDefault();
-        let contenido = document.getElementById("contenido").value;
-
-        fetch('http://localhost:7000/avisos', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                "contenido": contenido,
-                "id_admin": 1
-            })
-        })
-        .then(response => {
-            if (!response.ok) throw new Error("Error al crear aviso");
-            return response.text();
-        })
-        .then(data => {
-            alert("✅ Aviso creado con éxito. ID: " + data);
-            modalContainer.style.display = 'none';
-            document.getElementById("contenido").value = "";
-            if (modalAvisos.style.display === "flex") {
-                cargarAvisos();
-            }
-        })
-        .catch(err => alert("❌ " + err.message));
-    });
-
-   
-    async function cargarAvisos() {
+async function cargarAvisos() {
 
   try {
     const response = await fetch('http://localhost:7000/avisos'); 
@@ -124,4 +137,5 @@ document.addEventListener('DOMContentLoaded', () => {
             cargarAvisos();
         }
     }, 30000); 
-});
+
+
