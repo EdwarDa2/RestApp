@@ -10,19 +10,20 @@ body {
   padding: 0;
   background-color: #000;
   font-family: "Inter", sans-serif;
+  margin-bottom: 100px;
 }
 
 .contenedor {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+  gap: 30px;
+  margin-top: 20px;
   background-color: var(--color-base);
-  width: 1300px;
-  height: 650px;
   border-radius: 10px;
   margin: 10px auto;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 30px;
   padding: 40px;
   box-sizing: border-box;
+  width: 1300px;
 }
 
 .mesa {
@@ -33,34 +34,53 @@ body {
   height: 150px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 10px;
-  text-decoration: none;
-  color: var(--color-texto);
-  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
 }
 
+.mesa .estado {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--color-texto);
+}
+
+
+
 .numero {
+  color: #ffffff;
   font-weight: bold;
   font-size: 20px;
+  position: relative;
+  top: -70px;
+  left: -10px;
+  background-color: transparent;
+  text-decoration: none;
 }
 
 .icono {
   width: 80px;
   height: 80px;
   margin: 0 auto;
+  object-fit: contain;
+  position: relative;
+  left: -7px;
+ 
 }
 
 .estado {
   background-color: var(--color-border);
-  color: var(--color-texto);
+  color: var(--color-texto); 
   font-size: 12px;
   font-weight: bold;
   border-radius: 10px;
   padding: 3px 10px;
   align-self: flex-end;
+  position: relative;
+  top: 10px;
+  left: 20px;
 }
-
 .barra-superior {
   display: flex;
   align-items: center;

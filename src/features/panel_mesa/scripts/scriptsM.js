@@ -6,34 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
   cargarMesas();  // Cargar mesas al inicio
 });
 
-let siguienteNumMesa = 1;
-
-// Función para agregar una nueva mesa
-btnAgregar.addEventListener("click", () => {
-  const nuevaMesa = {
-    id_mesero: 1, // Asegúrate de obtener el ID del mesero de alguna parte del sistema
-    id_cuenta: null, // Aquí también deberías verificar si esta mesa está asociada a alguna cuenta
-    num_personas: 0,
-    num_mesa: siguienteNumMesa++,  // Se incrementa automáticamente
-    status: true
-  };
-
-  // Enviar la solicitud POST al backend para agregar la mesa
-  fetch(apiUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(nuevaMesa)
-  })
-    .then(res => {
-      if (res.ok) {
-        cargarMesas();  // Recargar las mesas después de agregar
-      } else {
-        console.error("Error al agregar la mesa");
-      }
-    })
-    .catch(err => console.error("Error en la solicitud:", err));
-});
-
 function cargarMesas() {
   fetch(apiUrl)
     .then(res => res.json())
@@ -43,14 +15,14 @@ function cargarMesas() {
         // Crear el enlace de la mesa
         const enlaceMesa = document.createElement("a");
         enlaceMesa.className = "aviso mesa " + (mesa.status ? "libre" : "ocupada");  // Usar clases para el diseño de avisos
-        enlaceMesa.href = `/src/features/apertura_mesa/vista.html?mesa=${mesa.num_mesa}`; // Redirigir al hacer clic
+        enlaceMesa.href = `/src/features/apertura_mesa/vistaMesero.html?mesa=${mesa.num_mesa}`; // Redirigir al hacer clic
         enlaceMesa.innerHTML = `
           <div class="aviso-contenido">
             <span class="numero">${mesa.num_mesa}</span>
             <img src="/src/assets/icono.png" class="icono" alt="Mesa" />
             <span class="estado">${mesa.status ? "Libre" : "Ocupada"}</span>
           </div>
-          <img src="/src/assets/eliminar.png" class="icono-eliminar" data-id="${mesa.id_mesa}" />   <!-- Ícono de eliminar -->
+          <div class="icono-eliminar" data-id="${mesa.id_mesa}"></div> <!-- Ícono de eliminar -->
         `;
 
         // Asegurarnos de que el icono de eliminar esté centrado y dentro de la mesa
@@ -64,22 +36,12 @@ function cargarMesas() {
           eliminarMesa(idMesa);  // Llamar a la función eliminarMesa pasando el id
         });
 
-        // Añadir la mesa al contenedorr
+        // Añadir la mesa al contenedor
         contenedorMesas.appendChild(enlaceMesa);
       });
     })
     .catch(err => console.error("Error al cargar mesas", err));
 }
 
-// Función para eliminar una mesa
-function eliminarMesa(id) {
-  fetch(`${apiUrl}/${id}`, { method: "DELETE" })
-    .then(res => {
-      if (res.ok) {
-        cargarMesas();  // Recargar mesas después de eliminar
-      } else {
-        console.error("Error al eliminar la mesa");
-      }
-    })
-    .catch(err => console.error("Error al eliminar la mesa:", err));
-}
+
+
