@@ -48,6 +48,8 @@ body {
   align-items: center;
   text-align: center;
   position: relative;
+  text-decoration: none
+
 }
 
 .mesa .estado {
@@ -79,10 +81,6 @@ body {
  
 }
 
-.mesa:focus {
-    outline: none; /* Remove default outline */
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Add a custom focus style */
-}
 
 
 .estado {
@@ -338,4 +336,8 @@ form {
 
 .avisos-lista li {
   margin-bottom: 10px;
+}
+
+.mesa .estado {
+  color: #ffffff !important;
 }

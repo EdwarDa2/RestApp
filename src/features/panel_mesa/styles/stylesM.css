@@ -26,6 +26,7 @@ body {
   width: 1300px;
 }
 
+
 .mesa {
   background-color: var(--color-mesa-bg);
   border: 3px solid var(--color-border);
@@ -38,6 +39,7 @@ body {
   align-items: center;
   text-align: center;
   position: relative;
+  text-decoration: none;
 }
 
 .mesa .estado {

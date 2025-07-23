@@ -71,18 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (valor > 1) contador.textContent = valor - 1;
     });
 
-    const productos = [
-        { nombre: 'Coca-Cola', precio: 20, categoria: 'Bebida', subcategoria: 'Refresco' },
-        { nombre: 'Pepsi', precio: 18, categoria: 'Bebida', subcategoria: 'Refresco' },
-        { nombre: 'Agua', precio: 12, categoria: 'Bebida', subcategoria: 'Natural' },
-        { nombre: 'Hamburguesa', precio: 45, categoria: 'Comidas', subcategoria: 'Rápida' },
-        { nombre: 'Pizza', precio: 60, categoria: 'Comidas', subcategoria: 'Rápida' },
-        { nombre: 'Arroz con pollo', precio: 50, categoria: 'Comidas', subcategoria: 'Casera' },
-        { nombre: 'Helado', precio: 30, categoria: 'Postres', subcategoria: 'Frío' },
-        { nombre: 'Pastel', precio: 40, categoria: 'Postres', subcategoria: 'Repostería' },
-        { nombre: 'Gelatina', precio: 25, categoria: 'Postres', subcategoria: 'Ligero' },
-    ];
-
     const tablaIzquierda = document.querySelectorAll('.tabla-contenedor table tbody')[0];
     const categoriaSelect = document.querySelectorAll('select')[0];
 
@@ -154,7 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const comanda = {
             id_comanda: 1,
             id_mesa: 1,
-            id_mesero: 1,
             fecha_hora: obtenerFechaHoraActual(),
             listaProductos: listaProductos
         };
@@ -166,14 +153,11 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(comanda)
         })
-            .then(response => {
-    if (!response.ok) throw new Error('Error al guardar comanda');
-    return response.text(); // <- cambia a text() para verificar si viene vacío
-})
+         
   .then(response => {
-    if (!response.ok) throw new Error('Error al guardar comanda');
-    return response.text(); 
-})
+  if (!response.ok) throw new Error('Error al guardar comanda');
+  return response.text();
+ })
 .then(data => {
     console.log('Comanda guardada con éxito:', data); 
     abrirModal('modal-confirmar-guardar');

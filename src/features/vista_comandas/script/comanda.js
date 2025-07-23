@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const subcatSelect = document.getElementById('subcategoria-select');
     const productosContainer = document.getElementById('tabla-productos-body');
 
-    fetch('http://localhost:7000/productos')
+   fetch('http://localhost:7000/productos')
   .then(response => response.json())
   .then(data => {
     const tbody = document.getElementById('tabla-productos-body');
