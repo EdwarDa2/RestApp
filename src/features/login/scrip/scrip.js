@@ -1,20 +1,54 @@
-function redireccionar() {
-      const usuario = document.getElementById('usuario').value;
-      const contraseña = document.getElementById('contraseña').value;
+// y redirigir al usuario según su rol (admin o mesero).
 
-      if (!usuario || usuario === "Selecciona tu usuario") {
-        alert("Por favor selecciona un tipo de usuario.");
-        return;
-      }
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('login-form');
+  const passwordInput = document.getElementById('password');
 
-      if (!contraseña) {
-        alert("Por favor ingresa la contraseña.");
-        return;
-      }
+  if (!form || !passwordInput) return;
 
-      if (usuario === "Mesero") {
-        window.location.href = "/src/features/panel_mesa/panelMesaMesero.html";
-      } else if (usuario === "Administrador") {
-        window.location.href = "/src/features/menu_admin/index.html";
-      }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const clave = passwordInput.value.trim();
+    
+    if (!clave) {
+      alert('Por favor ingrese su clave');
+      return;
     }
+
+    // Considera usar una variable de configuración para la URL
+    const API_URL = 'http://localhost:7000/login';
+    
+    fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ clave: clave }),
+    })
+      .then((response) => {
+        // Manejo más específico de errores HTTP
+        if (response.status === 401) {
+          throw new Error('Clave incorrecta');
+        }
+        if (!response.ok) {
+          throw new Error(`Error del servidor: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const rol = data.rol;
+        
+        // Rutas consistentes y posiblemente diferentes archivos por rol
+        if (rol === 'admin') {
+          window.location.href = '/src/features/panel_mesa/panelMesa.html';
+        } else if (rol === 'mesero') {
+          window.location.href = '/src/features/panel_mesa/panelMesaMesero.html';
+        } else {
+          alert('Rol no reconocido');
+        }
+      })
+      .catch((error) => {
+        alert(error.message || 'Error al iniciar sesión');
+      });
+  });
+});
