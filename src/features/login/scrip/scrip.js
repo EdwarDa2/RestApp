@@ -36,12 +36,11 @@ document.addEventListener('DOMContentLoaded', function () {
         return response.json();
       })
       .then((data) => {
-        const rol = data.rol;
+        const rol = data.tipoRol;
         
-        // Rutas consistentes y posiblemente diferentes archivos por rol
-        if (rol === 'admin') {
+        if (rol === "Administrador") {
           window.location.href = '/src/features/menu_admin/index.html';
-        } else if (rol === 'mesero') {
+        } else if (rol === "Mesero") {
           window.location.href = '/src/features/panel_mesa/panelMesaMesero.html';
         } else {
           alert('Rol no reconocido');
