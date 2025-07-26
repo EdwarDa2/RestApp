@@ -142,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const comanda = {
             id_comanda: 1,
             id_mesa: 1,
+            id_mesero: 1,
             fecha_hora: obtenerFechaHoraActual(),
             listaProductos: listaProductos
         };

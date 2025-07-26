@@ -11,21 +11,22 @@
   <div class="Contenedor">
     <header class="header">
       <a href="/src/features/menu_admin/index.html"><div class="Flecha-atras">⟵</div></a>
-      <h1>Usuarios</h1>
+      <h1>Lista de Meseros</h1>
        <button class="btn-agregar">
-      <span><div class="x">+</div></span><div class="btn-agragar">Agregar Usuario</div>
+      <span><div class="x">+</div></span><div class="btn-agragar">Agregar Mesero</div>
       </button>
       <button class="btn">
-        <span><div class="x">X</div></span><div>Eliminar Usuario</div>
+        <span><div class="x">X</div></span><div>Eliminar Mesero</div>
       </button>
     </header>
 
     <table class="tabla_usuarios">
       <thead>
         <tr>
-          <th>Nombre del Usuario</th>
-          <th>Apellido paterno</th>
-          <th>Apellido materno</th>
+          <th>Id Usuario</th>
+          <th>Nombre</th>
+          <th>Primer Apellido</th>
+          <th>Segundo Apellido</th>
           <th>Clave</th>
           <th>Rol</th>
         </tr>
@@ -46,9 +47,6 @@
     <input type="text" id="apellidoM" placeholder="Apellido materno" />
     <h3>Ingrese La Clave:</h3>
     <input type="text" id="clave" placeholder="Clave" />
-    <h3>Tipo de Usuario</h3>
-    <label><input type="radio" name="tipo" value="Administrador" /> Administrador</label>
-    <label><input type="radio" name="tipo" value="Mesero" checked /> Mesero</label>
     <br/><br/>
     <div class="guardar">
     <button id="guardarUsuario" class="btn btn-guardar">Guardar Usuario</button>
