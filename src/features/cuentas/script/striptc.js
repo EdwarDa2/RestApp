@@ -1,3 +1,49 @@
+document.addEventListener("DOMContentLoaded", () => {
+  async function cargarCuenta() {
+    const idComanda = localStorage.getItem("id_comanda");
+    if (!idComanda) return console.error("❌ No se encontró id_comanda en localStorage");
+
+    try {
+      console.log("✅ ID COMANDA:", idComanda);
+      const res = await fetch(`http://localhost:7000/comandas/${idComanda}`);
+      const data = await res.json();
+      const comanda = Array.isArray(data) ? data[0] : data;
+
+      if (comanda && Array.isArray(comanda.listaProductos)) {
+        const tbody = document.querySelector(".receipt-table tbody");
+        tbody.innerHTML = "";
+        let subtotal = 0;
+
+        comanda.listaProductos.forEach(det => {
+          const tr = document.createElement("tr");
+          const nombre = det.nombreProducto;
+          const precio = parseFloat(det.precio);
+          subtotal += precio;
+
+          tr.innerHTML = `
+            <td>${nombre}</td>
+            <td>$${precio.toFixed(2)}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        const iva = subtotal * 0.16;
+        const total = subtotal + iva;
+
+        document.getElementById("subtotal").innerText = `$${subtotal.toFixed(2)}`;
+        document.getElementById("iva").innerText = `$${iva.toFixed(2)}`;
+        document.getElementById("total").innerText = `$${total.toFixed(2)}`;
+      } else {
+        console.error("❌ No se encontró listaProductos");
+      }
+    } catch (error) {
+      console.error("❌ Error al cargar la cuenta:", error);
+    }
+  }
+
+  cargarCuenta(); // ⬅️ Llama la función
+});
+
 document.getElementById('btnImprimir').addEventListener('click', () => {
   const { jsPDF } = window.jspdf;
 

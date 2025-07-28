@@ -1,3 +1,19 @@
+let mesa_id = null;
+let mesa_numero = null;
+
+document.addEventListener('DOMContentLoaded', async () => {
+    mesa_id = parseInt(localStorage.getItem("mesa_id"));
+    mesa_numero = localStorage.getItem("mesa_numero");
+
+    if (!mesa_id || !mesa_numero) {
+        alert("⚠ No se seleccionó ninguna mesa. Redirigiendo...");
+        return window.location.href = "/src/features/panel_mesa/PanelMesa.html";
+    }
+
+    console.log(`🟢 Comanda para Mesa #${mesa_numero} (ID: ${mesa_id})`);
+    // Aquí podrías mostrar el número de mesa en pantalla si quieres
+});
+
 function abrirModal(id) {
     document.getElementById(id).style.display = 'flex';
 }
@@ -6,13 +22,24 @@ function cerrarModal(id) {
     document.getElementById(id).style.display = 'none';
 }
 
+// 🟢 Definir productos global
+let productos = [];
 let productosSeleccionados = [];
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const guardarBtn = document.querySelector('.guardar-boton');
     const contador = document.getElementById('contador');
     const tbodyDerecha = document.getElementById('tabla-derecha-body');
     let productoSeleccionado = null;
+
+    // 🔵 Cargar productos desde la API
+    try {
+        const response = await fetch('http://localhost:7000/productos');
+        productos = await response.json();
+        console.log('✅ Productos cargados:', productos);
+    } catch (error) {
+        console.error('❌ Error al cargar productos:', error);
+    }
 
     if (guardarBtn) {
         guardarBtn.addEventListener('click', () => {
@@ -24,18 +51,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const nuevaFila = document.createElement('tr');
 
             productosSeleccionados.push({
+                id: productoSeleccionado.id,
                 nombre: productoSeleccionado.nombre,
                 precio: productoSeleccionado.precio,
                 cantidad: cantidad
             });
+            console.log("🟢 Productos seleccionados:", productosSeleccionados);
 
 
             nuevaFila.innerHTML = `
-        <td>${cantidad}</td>
-        <td>${productoSeleccionado.nombre}</td>
-        <td>$${productoSeleccionado.precio}</td>
-        <td><img src="/src/assets/Menos.jpg" class="icono-eliminar eliminar-producto" style="cursor:pointer;"></td>
-      `;
+                <td>${cantidad}</td>
+                <td>${productoSeleccionado.nombre}</td>
+                <td>$${productoSeleccionado.precio}</td>
+                <td><img src="/src/assets/Menos.jpg" class="icono-eliminar eliminar-producto" style="cursor:pointer;"></td>
+            `;
 
             tbodyDerecha.appendChild(nuevaFila);
         });
@@ -101,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
         mostrarProductos(filtrados);
     });
 
-
     const tablaScrollContainer = document.querySelectorAll('.tabla-contenedor')[0];
     const flechaArriba = document.querySelector('.flechas .flechaTop');
     const flechaAbajo = document.querySelector('.flechas .flechaBot');
@@ -121,58 +149,70 @@ document.addEventListener('DOMContentLoaded', () => {
         fila.classList.add('selected');
         const nombre = fila.cells[0].textContent;
         const precio = parseFloat(fila.cells[1].textContent.replace('$', ''));
-        productoSeleccionado = { nombre, precio };
+        const encontrado = productos.find(p => p.nombre === nombre && p.precio === precio);
+       productoSeleccionado = { 
+        id: encontrado?.id_producto,
+        nombre, 
+        precio  
+        };
     });
 
     const btnEnviar = document.querySelector('.bot');
-    btnEnviar?.addEventListener('click', (e) => {
+    btnEnviar?.addEventListener('click', async (e) => {
         e.preventDefault();
 
-        const comentario = document.getElementById('comentario').value || '';
+    const comentario = document.getElementById("comentario").value.trim;
+    const idMesa = mesa_id;
 
-        const listaProductos = productosSeleccionados.map((prod, index) => ({
-            id_detalle: index + 1,
-            id_comanda: 1,
-            id_producto: 1, // necesitas esta función o un mapa
-            cantidad: prod.cantidad,
-            nombreProducto: prod.nombre,
-            comentario: comentario
-        }));
+// Validación
+if (productosSeleccionados.length === 0) {
+  return alert("Agrega al menos un producto.");
+}
 
-        const comanda = {
-            id_comanda: 1,
-            id_mesa: 1,
-            id_mesero: 1,
-            fecha_hora: obtenerFechaHoraActual(),
-            listaProductos: listaProductos
-        };
+// Armar productos con ID real y comentario
+const listaProductos = productosSeleccionados.map(prod => ({
+  id_producto: prod.id,  // ya debe venir con id
+  cantidad: prod.cantidad,
+  comentario: prod.comentario || ""
+}));
 
-        console.log('Comanda enviada:', comanda);
+const comanda = {
+  id_mesa: idMesa,
+  fecha_hora: new Date().toISOString(),
+  listaProductos
+};
 
-        fetch('http://localhost:7000/comandas', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(comanda)
-        })
-         
-  .then(response => {
-  if (!response.ok) throw new Error('Error al guardar comanda');
-  return response.text();
- })
-.then(data => {
-    console.log('Comanda guardada con éxito:', data); 
-    abrirModal('modal-confirmar-guardar');
-})
-.catch(error => {
-    console.error('Error al enviar comanda:', error);
-    alert('Error al enviar la comanda.');
-});
+console.log("🟢 Comanda que se enviará:", comanda);
+
+try {
+  const response = await fetch("http://localhost:7000/comandas", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(comanda)
+  });
+  if (!response.ok) {
+  const errorText = await response.text();
+  console.error("❌ Error del backend:", errorText);
+  throw new Error(errorText);
+}
+
+// ✅ Si sí pasó el response.ok, ahora sí accedemos al JSON:
+const data = await response.json();
+localStorage.setItem("id_comanda", data.id_comanda);
+window.location.href = "/src/features/cuentas/cuentas.html";
+
+  
+  alert("Comanda enviada con éxito ✅");
+  // Aquí podrías limpiar tablas, inputs, etc.
+
+} catch (error) {
+  console.error("❌ Error al enviar comanda:", error.message);
+  alert("Error al enviar la comanda ❌");
+}
+
     });
-
-    function obtenerFechaHoraActual() {
-        return new Date().toISOString().slice(0, 19); // "2025-07-23T23:19:48"
-    }
-
 
     tbodyDerecha.addEventListener('click', (e) => {
         if (e.target.classList.contains('eliminar-producto')) {
@@ -188,7 +228,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
     const tablaScrollDerecha = document.querySelectorAll('.tabla-contenedor')[1];
     const flechaArribaDer = document.querySelector('.flechas2 .flechaTop');
     const flechaAbajoDer = document.querySelector('.flechas2 .flechaBot');
@@ -202,10 +241,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-document.getElementById('btn-enviar').addEventListener('click', function(e) {
+// 🔸 Generación del PDF al presionar el botón
+document.getElementById('btn-enviar').addEventListener('click', function (e) {
     e.preventDefault();
 
-    // Recolectar datos de los productos seleccionados
     const productos = [];
     const rows = document.querySelectorAll('#tabla-derecha-body tr');
     rows.forEach(row => {
@@ -214,53 +253,42 @@ document.getElementById('btn-enviar').addEventListener('click', function(e) {
         productos.push({ cantidad, nombre });
     });
 
-    // Obtener comentario
     const comentario = document.getElementById('comentario').value || '';
 
-    // Crear el PDF usando jsPDF
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({
-        unit: 'mm', // Utilizamos milímetros como unidad
-        format: [58, 80] // Configuramos el tamaño de la página en 58mm x 80mm
+        unit: 'mm',
+        format: [58, 80]
     });
 
-    // Establecer la fuente más pequeña para que quepan todos los datos
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(5); // Reducimos aún más el tamaño de la fuente
+    doc.setFontSize(5);
 
-    // Encabezado RESTAPP
-    doc.setFontSize(8); // Aumentamos un poco el encabezado para el título
-    doc.text('RESTAPP', 10, 10); // Título en la parte superior
+    doc.setFontSize(8);
+    doc.text('RESTAPP', 10, 10);
 
-    // Líneas para separar las columnas
-    const columnWidth = 18; // Ancho para cada columna (ajustado para no desbordar)
-    const startX = 10; // Margen izquierdo
-    let yPosition = 18; // Comenzamos un poco más abajo para evitar que se solape con el título
+    const columnWidth = 18;
+    const startX = 10;
+    let yPosition = 18;
 
-    // Títulos de las columnas: Cantidad | Producto
     doc.text('Cantidad', startX, yPosition);
-    doc.text('Producto', startX + columnWidth + 2, yPosition); // Ajuste para las dos columnas
-    yPosition += 5; // Espacio entre el encabezado y los datos
+    doc.text('Producto', startX + columnWidth + 2, yPosition);
+    yPosition += 5;
 
-    // Agregar los productos al PDF (columnas: Cantidad, Producto)
     productos.forEach(producto => {
         doc.text(producto.cantidad, startX, yPosition);
-        
-        // Dividir el nombre del producto en varias líneas si es necesario
-        const maxWidth = 35; // Ancho máximo para el nombre del producto
-        const nombreDividido = doc.splitTextToSize(producto.nombre, maxWidth); // Divide el texto
-        doc.text(nombreDividido, startX + columnWidth + 2, yPosition); // Escribe el texto dividido
-        yPosition += (nombreDividido.length * 5); // Aumenta la posición en función de la cantidad de líneas
+        const maxWidth = 35;
+        const nombreDividido = doc.splitTextToSize(producto.nombre, maxWidth);
+        doc.text(nombreDividido, startX + columnWidth + 2, yPosition);
+        yPosition += (nombreDividido.length * 5);
     });
 
-    // Agregar comentario
     if (comentario) {
-        yPosition += 4; // Espacio entre productos y comentario
+        yPosition += 4;
         doc.text('Comentario:', startX, yPosition);
         yPosition += 5;
         doc.text(comentario, startX, yPosition);
     }
 
-    // Guardar el PDF
     doc.save('comanda.pdf');
 });

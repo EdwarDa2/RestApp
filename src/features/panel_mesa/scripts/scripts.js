@@ -11,14 +11,13 @@ let siguienteNumMesa = 1;
 // Función para agregar una nueva mesa
 btnAgregar.addEventListener("click", () => {
   const nuevaMesa = {
-    id_mesero: 1, // Asegúrate de obtener el ID del mesero de alguna parte del sistema
-    id_cuenta: null, // Aquí también deberías verificar si esta mesa está asociada a alguna cuenta
+    id_mesero: 1,
+    id_cuenta: null,
     num_personas: 0,
-    num_mesa: siguienteNumMesa++,  // Se incrementa automáticamente
+    num_mesa: siguienteNumMesa++,
     status: true
   };
 
-  // Enviar la solicitud POST al backend para agregar la mesa
   fetch(apiUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -26,7 +25,7 @@ btnAgregar.addEventListener("click", () => {
   })
     .then(res => {
       if (res.ok) {
-        cargarMesas();  // Recargar las mesas después de agregar
+        cargarMesas();
       } else {
         console.error("Error al agregar la mesa");
       }
@@ -38,19 +37,29 @@ function cargarMesas() {
   fetch(apiUrl)
     .then(res => res.json())
     .then(mesas => {
-      contenedorMesas.innerHTML = "";  // Limpiar contenedor antes de cargar
+      contenedorMesas.innerHTML = "";
       mesas.forEach(mesa => {
-        // Crear el enlace de la mesa. Dependiendo del estado, la mesa se redirige a apertura (libre) o a comandas (ocupada)
         const enlaceMesa = document.createElement("a");
         enlaceMesa.className = "aviso mesa " + (mesa.status ? "libre" : "ocupada");
-        // Incluir el id de la mesa en la URL para poder actualizarla posteriormente
+
         if (mesa.status) {
-          // Mesa libre: enviar a la vista de apertura. Pasamos también el id de la mesa
-          enlaceMesa.href = `/src/features/apertura_mesa/vista.html?mesa=${mesa.num_mesa}&id=${mesa.id_mesa}`;
+          // 🟢 Mesa libre → Redirigir a apertura
+          enlaceMesa.addEventListener("click", (e) => {
+            e.preventDefault();
+            localStorage.setItem("mesa_id", mesa.id_mesa);
+            localStorage.setItem("mesa_numero", mesa.num_mesa);
+            window.location.href = `/src/features/apertura_mesa/vista.html`;
+          });
         } else {
-          // Mesa ocupada: enviar directamente a la vista de comandas
-          enlaceMesa.href = `/src/features/vista_comandas/Comandas.html?mesa=${mesa.num_mesa}&id=${mesa.id_mesa}`;
+          // 🔴 Mesa ocupada → Redirigir a comandas
+          enlaceMesa.addEventListener("click", (e) => {
+            e.preventDefault(); // ⛔ evitar que redireccione automáticamente
+            localStorage.setItem("mesa_id", mesa.id_mesa);
+            localStorage.setItem("mesa_numero", mesa.num_mesa);
+            window.location.href = `/src/features/vista_comandas/Comandas.html?mesa=${mesa.num_mesa}&id=${mesa.id_mesa}`;
+          });
         }
+
         enlaceMesa.innerHTML = `
           <div class="aviso-contenido">
             <span class="numero">${mesa.num_mesa}</span>
@@ -60,30 +69,26 @@ function cargarMesas() {
           <img src="/src/assets/eliminar.png" class="icono-eliminar" data-id="${mesa.id_mesa}" />
         `;
 
-        // Asegurarnos de que el icono de eliminar esté centrado y dentro de la mesa
         const iconoEliminar = enlaceMesa.querySelector('.icono-eliminar');
         iconoEliminar.style.textAlign = 'center';
 
-        // Agregar el evento de clic para eliminar la mesa
         iconoEliminar.addEventListener("click", (event) => {
-          event.preventDefault();  // Evitar la redirección al hacer clic en el ícono
+          event.preventDefault();
           const idMesa = mesa.id_mesa;
-          eliminarMesa(idMesa);  // Llamar a la función eliminarMesa pasando el id
+          eliminarMesa(idMesa);
         });
 
-        // Añadir la mesa al contenedorr
         contenedorMesas.appendChild(enlaceMesa);
       });
     })
     .catch(err => console.error("Error al cargar mesas", err));
 }
 
-// Función para eliminar una mesa
 function eliminarMesa(id) {
   fetch(`${apiUrl}/${id}`, { method: "DELETE" })
     .then(res => {
       if (res.ok) {
-        cargarMesas();  // Recargar mesas después de eliminar
+        cargarMesas();
       } else {
         console.error("Error al eliminar la mesa");
       }
