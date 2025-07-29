@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:7000/mesas";
+const apiUrl = "http://3.214.208.156:7000/mesas";
 const contenedorMesas = document.getElementById("contenedor-mesas");
 const btnAgregar = document.getElementById("btn-agregar-mesa");
 

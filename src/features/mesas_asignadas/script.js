@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   try {
-    const res = await fetch('http://localhost:7000/mesas');
+    const res = await fetch('http://3.214.208.156:7000/mesas');
     const mesas = await res.json();
     if (!Array.isArray(mesas)) {
       grid.innerHTML = '<p>No se pudieron obtener las mesas.</p>';

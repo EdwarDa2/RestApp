@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 🔵 Cargar productos desde la API
     try {
-        const response = await fetch('http://localhost:7000/productos');
+        const response = await fetch('http://3.214.208.156:7000/productos');
         productos = await response.json();
         console.log('✅ Productos cargados:', productos);
     } catch (error) {
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         try {
             console.log("🟢 Enviando comanda:", comandaPayload);
-            const response = await fetch("http://localhost:7000/comandas", {
+            const response = await fetch("http://3.214.208.156:7000/comandas", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(comandaPayload)

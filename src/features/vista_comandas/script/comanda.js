@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const subcatSelect = document.getElementById('subcategoria-select');
     const productosContainer = document.getElementById('tabla-productos-body');
 
-   fetch('http://localhost:7000/productos')
+   fetch('http://3.214.208.156:7000/productos')
   .then(response => response.json())
   .then(data => {
     const tbody = document.getElementById('tabla-productos-body');
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   .catch(error => console.error('Error al cargar los productos:', error));
 
     // Cargar las categorías desde la API
-    fetch('http://localhost:7000/categorias')
+    fetch('http://3.214.208.156:7000/categorias')
         .then(response => response.json())
         .then(data => {
             data.forEach(categoria => {
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         subcatSelect.innerHTML = '<option>Selecciona la subcategoría</option>';
 
         if (categoriaId) {
-            fetch(`http://localhost:7000/subcategorias/${categoriaId}`)
+            fetch(`http://3.214.208.156:7000/subcategorias/${categoriaId}`)
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(subcategoria => {
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         productosContainer.innerHTML = ''; // Limpiar la tabla antes de agregar nuevos productos
 
         if (subcategoriaId) {
-            fetch(`http://localhost:7000/productos/subcategoria/${subcategoriaId}`)
+            fetch(`http://3.214.208.156:7000/productos/subcategoria/${subcategoriaId}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log('Productos cargados:', data); // Verifica que los productos se cargan correctamente

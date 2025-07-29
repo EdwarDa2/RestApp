@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function obtenerComandas() {
     try {
-      const response = await fetch('http://localhost:7000/comandas');
+      const response = await fetch('http://3.214.208.156:7000/comandas');
       const data = await response.json();
       tablaComandas.innerHTML = '';
 
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function eliminarComanda(id) {
     try {
-      const response = await fetch(`http://localhost:7000/comandas/${id}`, {
+      const response = await fetch(`http://3.214.208.156:7000/comandas/${id}`, {
         method: 'DELETE'
       });
 

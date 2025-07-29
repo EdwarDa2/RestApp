@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let subtotal = 0;
     try {
       // Obtener todas las comandas
-      const res = await fetch('http://localhost:7000/comandas');
+      const res = await fetch('http://3.214.208.156:7000/comandas');
       const allComandas = await res.json();
       if (!Array.isArray(allComandas)) {
         console.error('❌ La respuesta de comandas no es un arreglo');
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const comandasMesa = allComandas.filter(c => parseInt(c.id_mesa, 10) === mesaId);
       for (const com of comandasMesa) {
         try {
-          const detRes = await fetch(`http://localhost:7000/comandas/${com.id_comanda}`);
+          const detRes = await fetch(`http://3.214.208.156:7000/comandas/${com.id_comanda}`);
           const detData = await detRes.json();
           const detalle = Array.isArray(detData) ? detData[0] : detData;
           if (detalle && Array.isArray(detalle.listaProductos)) {
@@ -200,7 +200,7 @@ if (cerrarBtn) {
       status: true
     };
     try {
-      await fetch(`http://localhost:7000/mesas/${mesaId}`, {
+      await fetch(`http://3.214.208.156:7000/mesas/${mesaId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

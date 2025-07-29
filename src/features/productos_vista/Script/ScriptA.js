@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Cargar categorías y sus subcategorías. Construye mapas y llena el select de categorías.
   function cargarCategoriasYSubcategorias() {
-    return fetch('http://localhost:7000/categorias')
+    return fetch('http://3.214.208.156:7000/categorias')
       .then(response => response.json())
       .then(categorias => {
         // Llenar mapa de categorías y select de categorías
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         // Para cada categoría, obtener sus subcategorías usando la ruta de categorías
         const promesasSubcats = categorias.map(cat => {
-          return fetch(`http://localhost:7000/subcategorias/${cat.id_categoria}`)
+          return fetch(`http://3.214.208.156:7000/subcategorias/${cat.id_categoria}`)
             .then(res => {
               // Algunas implementaciones devuelven 404 si no existen subcategorías. Manejarlo silenciosamente.
               if (!res.ok) return [];
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Cargar productos existentes y mostrarlos en la tabla
   function cargarProductos() {
-    return fetch('http://localhost:7000/productos')
+    return fetch('http://3.214.208.156:7000/productos')
       .then(response => response.json())
       .then(productos => {
         // Limpiar la tabla
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
       subcategoriaId: subcategoriaId
     };
     console.log('Producto a enviar:', producto);
-    fetch('http://localhost:7000/productos', {
+    fetch('http://3.214.208.156:7000/productos', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(producto)
@@ -233,7 +233,7 @@ btnEliminarSeleccionado.addEventListener('click', () => {
 
     // Confirmar si realmente desea eliminar el producto
     if (confirm(`¿Seguro que deseas eliminar el producto con ID ${productoId}?`)) {
-  fetch(`http://localhost:7000/productos/${productoId}`, {
+  fetch(`http://3.214.208.156:7000/productos/${productoId}`, {
     method: 'DELETE'
   })
   .then(response => {

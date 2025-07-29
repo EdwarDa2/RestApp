@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
             status: false
           };
           try {
-            await fetch(`http://localhost:7000/mesas/${mesaId}`, {
+            await fetch(`http://3.214.208.156:7000/mesas/${mesaId}`, {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload)

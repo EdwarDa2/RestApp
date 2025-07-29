@@ -42,13 +42,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const id_mesero = await obtenerIdMeseroPorUsuario(id_usuario);
 
       if (id_mesero) {
-        const deleteMesero = await fetch(`http://localhost:7000/meseros/${id_mesero}`, {
+        const deleteMesero = await fetch(`http://3.214.208.156:7000/meseros/${id_mesero}`, {
           method: "DELETE"
         });
         if (!deleteMesero.ok) throw new Error("No se pudo eliminar el mesero");
       }
 
-      const deleteUsuario = await fetch(`http://localhost:7000/Usuarios/${id_usuario}`, {
+      const deleteUsuario = await fetch(`http://3.214.208.156:7000/Usuarios/${id_usuario}`, {
         method: "DELETE"
       });
       if (!deleteUsuario.ok) throw new Error("No se pudo eliminar el usuario");
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
-      const response = await fetch("http://localhost:7000/meseros", {
+      const response = await fetch("http://3.214.208.156:7000/meseros", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const id_mesero = await obtenerIdMeseroPorUsuario(id_usuario);
 
         // Actualizar usuario
-        await fetch(`http://localhost:7000/Usuarios/${id_usuario}`, {
+        await fetch(`http://3.214.208.156:7000/Usuarios/${id_usuario}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Actualizar mesero
         if (id_mesero) {
-          await fetch(`http://localhost:7000/meseros/${id_mesero}`, {
+          await fetch(`http://3.214.208.156:7000/meseros/${id_mesero}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ clave })
@@ -197,11 +197,11 @@ document.getElementById("cerrarAgregar").addEventListener("click", () => {
 
   async function cargarUsuarios() {
     try {
-      const usuariosResponse = await fetch('http://localhost:7000/Usuarios');
+      const usuariosResponse = await fetch('http://3.214.208.156:7000/Usuarios');
       if (!usuariosResponse.ok) throw new Error("Error al obtener usuarios");
       const usuarios = await usuariosResponse.json();
 
-      const meserosResponse = await fetch('http://localhost:7000/meseros');
+      const meserosResponse = await fetch('http://3.214.208.156:7000/meseros');
       if (!meserosResponse.ok) throw new Error("Error al obtener meseros");
       const meseros = await meserosResponse.json();
 
@@ -239,7 +239,7 @@ document.getElementById("cerrarAgregar").addEventListener("click", () => {
 
   async function obtenerIdMeseroPorUsuario(id_usuario) {
     try {
-      const response = await fetch('http://localhost:7000/meseros');
+      const response = await fetch('http://3.214.208.156:7000/meseros');
       const meseros = await response.json();
       const mesero = meseros.find(m => m.id_usuario === id_usuario);
       return mesero ? mesero.id_mesero : null;

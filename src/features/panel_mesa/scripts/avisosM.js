@@ -33,7 +33,7 @@ function guardarCodigo() {
 async function cargarAvisos() {
 
   try {
-    const response = await fetch('http://localhost:7000/avisos'); 
+    const response = await fetch('http://3.214.208.156:7000/avisos'); 
     if (!response.ok) throw new Error('Error al obtener avisos');
 
 

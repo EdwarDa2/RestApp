@@ -57,7 +57,7 @@ subirBtn.addEventListener("click", () => {
     let dia = document.getElementById("dia").value.padStart(2, '0');   
     let fecha = `${anio}-${mes}-${dia}`;
 
-    fetch('http://localhost:7000/avisos', {
+    fetch('http://3.214.208.156:7000/avisos', {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'

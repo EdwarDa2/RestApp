@@ -3,7 +3,7 @@ document.getElementById('btnMostrarGrafica').addEventListener('click', () => {
   modal.style.display = 'flex';
 
   setTimeout(() => {
-    fetch('http://localhost:7000/stats/average')
+    fetch('http://3.214.208.156:7000/stats/average')
       .then(res => res.json())
       .then(data => {
         const labels = data.map(item => `Mesa ${item.id_mesa}`);

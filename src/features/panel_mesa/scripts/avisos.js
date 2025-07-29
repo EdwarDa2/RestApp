@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         let contenido = document.getElementById("contenido").value;
 
-        fetch('http://localhost:7000/avisos', {
+        fetch('http://3.214.208.156:7000/avisos', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function cargarAvisos() {
 
   try {
-    const response = await fetch('http://localhost:7000/avisos'); 
+    const response = await fetch('http://3.214.208.156:7000/avisos'); 
     if (!response.ok) throw new Error('Error al obtener avisos');
 
 

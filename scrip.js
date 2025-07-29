@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Considera usar una variable de configuración para la URL
-    const API_URL = 'http://localhost:7000/login';
+    const API_URL = 'http://3.214.208.156:7000/login';
     
     fetch(API_URL, {
       method: 'POST',
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
            * de redirigir al panel de mesas correspondiente.
            */
           const idUsuarioActual = data.idUsuario;
-          fetch('http://localhost:7000/meseros')
+          fetch('http://3.214.208.156:7000/meseros')
             .then(res => res.json())
             .then(meseros => {
               const encontrado = Array.isArray(meseros)
