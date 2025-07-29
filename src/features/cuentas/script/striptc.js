@@ -182,21 +182,20 @@ if (cerrarBtn) {
   cerrarBtn.addEventListener('click', async () => {
     const mesaId = localStorage.getItem('mesa_id');
     const mesaNumero = localStorage.getItem('mesa_numero');
-    // Para liberar la mesa utilizamos el id del mesero si existe; en caso
-    // contrario el id del usuario (administrador).  Esto asegura que la
-    // relación id_mesero quede coherente cuando se abre y se cierra una mesa.
+    // Utilizamos el id del mesero si existe; en caso contrario el id del usuario (administrador).
     const idUsuario = parseInt(localStorage.getItem('id_mesero') || localStorage.getItem('id_usuario') || '0', 10) || 1;
-    // Si no existe información de la mesa en localStorage, no hacemos nada
     if (!mesaId || !mesaNumero) {
       console.error('No se pudo obtener la información de la mesa para cerrar la cuenta');
       return;
     }
+    const mesaIdInt = parseInt(mesaId, 10);
+    const mesaNumInt = parseInt(mesaNumero, 10);
     const payload = {
-      id_mesa: parseInt(mesaId, 10),
+      id_mesa: mesaIdInt,
       id_mesero: idUsuario,
       id_cuenta: null,
       num_personas: 0,
-      num_mesa: parseInt(mesaNumero, 10),
+      num_mesa: mesaNumInt,
       status: true
     };
     try {
@@ -208,18 +207,36 @@ if (cerrarBtn) {
     } catch (err) {
       console.error('Error al cerrar la mesa:', err);
     }
-    // Limpiamos información relacionada con la comanda
+    try {
+      // Eliminar todas las comandas asociadas a la mesa para evitar que la cuenta
+      // vuelva a mostrar productos de sesiones anteriores.  Este código asume que
+      // el backend expone un endpoint DELETE /comandas/:id.
+      const res = await fetch('http://3.214.208.156:7000/comandas');
+      const comandas = await res.json();
+      if (Array.isArray(comandas)) {
+        const asociadas = comandas.filter(c => parseInt(c.id_mesa, 10) === mesaIdInt);
+        for (const com of asociadas) {
+          try {
+            await fetch(`http://3.214.208.156:7000/comandas/${com.id_comanda}`, { method: 'DELETE' });
+          } catch (delErr) {
+            console.error(`Error al eliminar la comanda ${com.id_comanda}:`, delErr);
+          }
+        }
+      }
+    } catch (comErr) {
+      console.error('Error al eliminar comandas asociadas:', comErr);
+    }
+    // Limpiar claves de localStorage relacionadas con la mesa y la comanda
     localStorage.removeItem('id_comanda');
-    // También eliminamos el número de personas almacenado para la mesa.
     localStorage.removeItem('mesa_num_personas');
-    // Redirigimos según el rol del usuario
+    localStorage.removeItem('mesa_id');
+    localStorage.removeItem('mesa_numero');
     const rol = localStorage.getItem('user_role');
     if (rol === 'Administrador') {
       window.location.href = '/src/features/panel_mesa/PanelMesa.html';
     } else if (rol === 'Mesero') {
       window.location.href = '/src/features/panel_mesa/panelMesaMesero.html';
     } else {
-      // Si no hay rol definido, regresamos al login
       window.location.href = '/src/features/login/login.html';
     }
   });
