@@ -233,31 +233,20 @@ btnEliminarSeleccionado.addEventListener('click', () => {
 
     // Confirmar si realmente desea eliminar el producto
     if (confirm(`¿Seguro que deseas eliminar el producto con ID ${productoId}?`)) {
-      // Enviar solicitud DELETE al backend
-      fetch(`http://localhost:7000/productos/${productoId}`, {
-        method: 'DELETE',
-      })
-      .then(response => {
-        // Verificar si la respuesta es exitosa y es un JSON
-        if (!response.ok) {
-          throw new Error('Error en la respuesta del servidor');
-        }
-        return response.json();  // Espera que la respuesta sea un JSON
-      })
-      .then(data => {
-        if (data.message === 'Producto eliminado correctamente') {
-          // Eliminar la fila de la tabla si la eliminación fue exitosa
-          filaSeleccionada.remove();
-          filaSeleccionada = null;  // Restablecer la selección
-          alert("Producto eliminado correctamente.");
-        } else {
-          alert("Hubo un error al eliminar el producto.");
-        }
-      })
-      .catch(error => {
-        console.error('Error al eliminar el producto:', error);
-      });
+  fetch(`http://localhost:7000/productos/${productoId}`, {
+    method: 'DELETE'
+  })
+  .then(response => {
+    if (!response.ok) {
+      return response.text().then(texto => { throw new Error(texto); });
     }
+    alert("✅ Producto eliminado correctamente");
+    location.reload();
+  })
+  .catch(error => {
+    alert("❌ No se puede eliminar: " + error.message);
+  });
+}
   } else {
     alert("Por favor, selecciona un producto para eliminar.");
   }
