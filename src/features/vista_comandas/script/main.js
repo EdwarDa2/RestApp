@@ -74,10 +74,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.log("🟢 Productos seleccionados:", productosSeleccionados);
 
 
+            // Calcular el precio total por la cantidad seleccionada.  Esto
+            // permite que el usuario visualice en la tabla el importe
+            // correspondiente a todas las unidades del producto.
+            const precioTotal = (productoSeleccionado.precio || 0) * cantidad;
             nuevaFila.innerHTML = `
                 <td>${cantidad}</td>
                 <td>${productoSeleccionado.nombre}</td>
-                <td>$${productoSeleccionado.precio}</td>
+                <td>$${precioTotal.toFixed(2)}</td>
                 <td><img src="/src/assets/Menos.jpg" class="icono-eliminar eliminar-producto" style="cursor:pointer;"></td>
             `;
 
@@ -179,60 +183,88 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     const btnEnviar = document.querySelector('.bot');
+    /**
+     * Enviar comanda o agregar productos a una comanda existente.
+     *
+     * Si ya existe una comanda en progreso para la mesa (guardada en
+     * localStorage con la clave `id_comanda`), en lugar de crear una
+     * nueva comanda se actualizará la existente mediante un PUT al
+     * endpoint `/comandas/:id`.  Esto permite que los meseros puedan
+     * seguir agregando productos a la misma cuenta sin perder los
+     * artículos previamente ordenados.  En caso de que no exista una
+     * comanda previa se realiza la creación normal mediante POST.
+     */
     btnEnviar?.addEventListener('click', async (e) => {
         e.preventDefault();
 
-    const comentario = document.getElementById("comentario").value.trim;
-    const idMesa = mesa_id;
+        // Recuperar texto del comentario asociado a la comanda.  Si el
+        // usuario introduce espacios en blanco, se utilizan tal cual
+        // para no alterar la intención del mensaje.
+        const comentarioTextarea = document.getElementById("comentario");
+        const comentario = comentarioTextarea ? comentarioTextarea.value : '';
+        const idMesa = mesa_id;
 
-// Validación
-if (productosSeleccionados.length === 0) {
-  return alert("Agrega al menos un producto.");
-}
+        // Validación: debe existir al menos un producto seleccionado
+        if (productosSeleccionados.length === 0) {
+            alert("Agrega al menos un producto.");
+            return;
+        }
 
-// Armar productos con ID real y comentario
-const listaProductos = productosSeleccionados.map(prod => ({
-  id_producto: prod.id,  // ya debe venir con id
-  cantidad: prod.cantidad,
-  comentario: prod.comentario || ""
-}));
+        // Construir la lista de productos para enviar.  Para asegurar
+        // que cada unidad de producto se trate de manera individual en
+        // el backend y facilitar el cálculo de subtotales en la cuenta,
+        // se descompone la cantidad en entradas individuales.  Cada
+        // elemento tendrá `cantidad` igual a 1 y se repetirá tantas
+        // veces como unidades se hayan solicitado.
+        const listaProductos = [];
+        productosSeleccionados.forEach(prod => {
+            const cant = parseInt(prod.cantidad, 10) || 1;
+            for (let i = 0; i < cant; i++) {
+                listaProductos.push({
+                    id_producto: prod.id,
+                    cantidad: 1,
+                    comentario: comentario || prod.comentario || ""
+                });
+            }
+        });
 
-const comanda = {
-  id_mesa: idMesa,
-  fecha_hora: new Date().toISOString(),
-  listaProductos
-};
+        // Siempre se crea una nueva comanda cada vez que se envían
+        // productos.  Esto permite registrar múltiples comandas para
+        // una misma mesa.  La vista de cuentas se encargará de sumar
+        // todos los productos de las comandas asociadas.
+        const comandaPayload = {
+            id_mesa: idMesa,
+            fecha_hora: new Date().toISOString(),
+            listaProductos
+        };
 
-console.log("🟢 Comanda que se enviará:", comanda);
-
-try {
-  const response = await fetch("http://localhost:7000/comandas", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(comanda)
-  });
-  if (!response.ok) {
-  const errorText = await response.text();
-  console.error("❌ Error del backend:", errorText);
-  throw new Error(errorText);
-}
-
-// ✅ Si sí pasó el response.ok, ahora sí accedemos al JSON:
-const data = await response.json();
-localStorage.setItem("id_comanda", data.id_comanda);
-window.location.href = "/src/features/cuentas/cuentas.html";
-
-  
-  alert("Comanda enviada con éxito ✅");
-  // Aquí podrías limpiar tablas, inputs, etc.
-
-} catch (error) {
-  console.error("❌ Error al enviar comanda:", error.message);
-  alert("Error al enviar la comanda ❌");
-}
-
+        try {
+            console.log("🟢 Enviando comanda:", comandaPayload);
+            const response = await fetch("http://localhost:7000/comandas", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(comandaPayload)
+            });
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error("❌ Error del backend:", errorText);
+                throw new Error(errorText);
+            }
+            const data = await response.json();
+            // Guardar el id de la comanda retornado por el backend por
+            // si se desea consultar esa comanda individualmente.  La
+            // lógica actual de cuentas no depende de este valor, pero
+            // se conserva para compatibilidad.
+            if (data && data.id_comanda) {
+                localStorage.setItem("id_comanda", data.id_comanda);
+            }
+            // Redirigir a la vista de cuentas para revisar el resumen
+            window.location.href = "/src/features/cuentas/cuentas.html";
+            alert("Comanda enviada con éxito ✅");
+        } catch (error) {
+            console.error("❌ Error al enviar la comanda:", error.message);
+            alert("Error al enviar la comanda ❌");
+        }
     });
 
     tbodyDerecha.addEventListener('click', (e) => {

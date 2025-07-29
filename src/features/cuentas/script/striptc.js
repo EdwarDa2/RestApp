@@ -1,47 +1,84 @@
 document.addEventListener("DOMContentLoaded", () => {
+  /**
+   * Cargar la cuenta mostrando todos los productos de todas las
+   * comandas asociadas a la mesa actual.  En lugar de depender del
+   * identificador de una única comanda almacenada en localStorage,
+   * esta función obtiene la lista de todas las comandas del backend,
+   * filtra las que correspondan a la mesa seleccionada y agrega
+   * cada producto a la tabla de la cuenta.  De este modo, cuando se
+   * envíen comandas adicionales para la misma mesa, sus productos
+   * aparecerán automáticamente en la cuenta.
+   */
   async function cargarCuenta() {
-    const idComanda = localStorage.getItem("id_comanda");
-    if (!idComanda) return console.error("❌ No se encontró id_comanda en localStorage");
-
+    const mesaIdStr = localStorage.getItem('mesa_id');
+    const mesaId = parseInt(mesaIdStr, 10);
+    if (!mesaId) {
+      console.error('❌ No se encontró mesa_id en localStorage');
+      return;
+    }
+    const tbody = document.querySelector('.receipt-table tbody');
+    tbody.innerHTML = '';
+    // Mapa para agregar las cantidades por producto.  La clave es el
+    // nombre del producto y el valor contiene la cantidad total y el
+    // precio unitario.
+    const agregados = {};
+    let subtotal = 0;
     try {
-      console.log("✅ ID COMANDA:", idComanda);
-      const res = await fetch(`http://localhost:7000/comandas/${idComanda}`);
-      const data = await res.json();
-      const comanda = Array.isArray(data) ? data[0] : data;
-
-      if (comanda && Array.isArray(comanda.listaProductos)) {
-        const tbody = document.querySelector(".receipt-table tbody");
-        tbody.innerHTML = "";
-        let subtotal = 0;
-
-        comanda.listaProductos.forEach(det => {
-          const tr = document.createElement("tr");
-          const nombre = det.nombreProducto;
-          const precio = parseFloat(det.precio);
-          subtotal += precio;
-
-          tr.innerHTML = `
-            <td>${nombre}</td>
-            <td>$${precio.toFixed(2)}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-
-        const iva = subtotal * 0.16;
-        const total = subtotal + iva;
-
-        document.getElementById("subtotal").innerText = `$${subtotal.toFixed(2)}`;
-        document.getElementById("iva").innerText = `$${iva.toFixed(2)}`;
-        document.getElementById("total").innerText = `$${total.toFixed(2)}`;
-      } else {
-        console.error("❌ No se encontró listaProductos");
+      // Obtener todas las comandas
+      const res = await fetch('http://localhost:7000/comandas');
+      const allComandas = await res.json();
+      if (!Array.isArray(allComandas)) {
+        console.error('❌ La respuesta de comandas no es un arreglo');
+        return;
       }
+      // Filtrar las comandas de la mesa actual
+      const comandasMesa = allComandas.filter(c => parseInt(c.id_mesa, 10) === mesaId);
+      for (const com of comandasMesa) {
+        try {
+          const detRes = await fetch(`http://localhost:7000/comandas/${com.id_comanda}`);
+          const detData = await detRes.json();
+          const detalle = Array.isArray(detData) ? detData[0] : detData;
+          if (detalle && Array.isArray(detalle.listaProductos)) {
+            detalle.listaProductos.forEach(det => {
+              const nombre = det.nombreProducto;
+              const precioUnitario = parseFloat(det.precio) || 0;
+              // Acumular cantidad y precio unitario para cada producto
+              if (!agregados[nombre]) {
+                agregados[nombre] = { cantidad: 0, precioUnitario };
+              }
+              agregados[nombre].cantidad += 1;
+              // En caso de que el precio unitario cambie entre comandas,
+              // actualizamos al último valor recibido.
+              agregados[nombre].precioUnitario = precioUnitario;
+            });
+          }
+        } catch (detalleError) {
+          console.error('❌ Error al obtener detalles de comanda:', detalleError);
+        }
+      }
+      // Generar filas a partir del mapa de agregados
+      Object.keys(agregados).forEach(nombre => {
+        const { cantidad, precioUnitario } = agregados[nombre];
+        const precioTotal = precioUnitario * cantidad;
+        subtotal += precioTotal;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${cantidad > 1 ? cantidad + ' x ' : ''}${nombre}</td>
+          <td>$${precioTotal.toFixed(2)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+      const iva = subtotal * 0.16;
+      const total = subtotal + iva;
+      document.getElementById('subtotal').innerText = `$${subtotal.toFixed(2)}`;
+      document.getElementById('iva').innerText = `$${iva.toFixed(2)}`;
+      document.getElementById('total').innerText = `$${total.toFixed(2)}`;
     } catch (error) {
-      console.error("❌ Error al cargar la cuenta:", error);
+      console.error('❌ Error al cargar la cuenta:', error);
     }
   }
 
-  cargarCuenta(); // ⬅️ Llama la función
+  cargarCuenta();
 
   // Mostrar el nombre del usuario y el número de mesa en la barra de tareas
   const nombreUsuario = localStorage.getItem('usuario_nombre') || '';
