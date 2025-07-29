@@ -106,6 +106,9 @@ body {
   text-align: center;
   font-size: 20px;
 }
+.btn-actualizar{
+  margin: 7px;
+}
 
 .tabla_usuarios tbody tr {
   border-top: 1px solid #333;
@@ -232,4 +235,9 @@ body {
 .modal-botones .btn-no {
   background-color: black;
   color: white;
+}
+
+.Flecha-atras img{
+  width: 50px;
+  height: 50px;
 }

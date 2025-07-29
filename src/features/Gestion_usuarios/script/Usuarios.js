@@ -107,6 +107,94 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+    // ACTUALIZAR MESERO
+  document.querySelector(".btn-actualizar").addEventListener("click", async () => {
+    if (!idSeleccionado) {
+      alert("Selecciona un usuario para actualizar.");
+      return;
+    }
+
+    // Obtener la fila seleccionada
+    const fila = filaSeleccionada;
+    const celdas = fila.querySelectorAll("td");
+
+    // Llenar el modal con los datos actuales
+    document.getElementById("nombre").value = celdas[1].textContent;
+    document.getElementById("apellidoP").value = celdas[2].textContent;
+    document.getElementById("apellidoM").value = celdas[3].textContent;
+    document.getElementById("clave").value = celdas[4].textContent;
+
+    // Cambiar el botón de Guardar a Actualizar
+    const botonGuardar = document.getElementById("guardarUsuario");
+    botonGuardar.textContent = "Actualizar Usuario";
+
+    // Mostrar el modal
+    document.getElementById("modalAgregar").style.display = "flex";
+
+    // Remover cualquier listener anterior
+    const nuevoBoton = botonGuardar.cloneNode(true);
+    botonGuardar.parentNode.replaceChild(nuevoBoton, botonGuardar);
+
+    nuevoBoton.addEventListener("click", async () => {
+      const nombre = document.getElementById("nombre").value.trim();
+      const apellidoP = document.getElementById("apellidoP").value.trim();
+      const apellidoM = document.getElementById("apellidoM").value.trim();
+      const clave = document.getElementById("clave").value.trim();
+
+      if (!nombre || !apellidoP || !apellidoM || !clave) {
+        alert("Por favor, llena todos los campos.");
+        return;
+      }
+
+      try {
+        const id_usuario = parseInt(idSeleccionado);
+        const id_mesero = await obtenerIdMeseroPorUsuario(id_usuario);
+
+        // Actualizar usuario
+        await fetch(`http://localhost:7000/Usuarios/${id_usuario}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id_usuario,
+            nombre,
+            apellido_p: apellidoP,
+            apellido_m: apellidoM,
+            rol: 2
+          })
+        });
+
+        // Actualizar mesero
+        if (id_mesero) {
+          await fetch(`http://localhost:7000/meseros/${id_mesero}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ clave })
+          });
+        }
+
+        alert("✅ Usuario actualizado correctamente");
+        document.getElementById("modalAgregar").style.display = "none";
+        cargarUsuarios();
+
+        // Restaurar texto del botón
+        nuevoBoton.textContent = "Guardar Usuario";
+      } catch (error) {
+        console.error("Error al actualizar:", error);
+        alert("❌ Error al actualizar el usuario.");
+      }
+    });
+  });
+  
+document.getElementById("cerrarAgregar").addEventListener("click", () => {
+  document.getElementById("modalAgregar").style.display = "none";
+  document.getElementById("guardarUsuario").textContent = "Guardar Usuario";
+  document.getElementById("nombre").value = "";
+  document.getElementById("apellidoP").value = "";
+  document.getElementById("apellidoM").value = "";
+  document.getElementById("clave").value = "";
+});
+
+
   async function cargarUsuarios() {
     try {
       const usuariosResponse = await fetch('http://localhost:7000/Usuarios');
