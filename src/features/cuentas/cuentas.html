@@ -24,12 +24,14 @@
       <button class="BotonA">Comandar</button>
     </a>
     <button class="BotonC">Cuenta</button>
-    <a href="/src/features/panel_mesa/PanelMesa.html">
+    <!-- Enlace a Mesas: el destino se determinará dinámicamente según el rol del usuario -->
+    <a id="linkMesas" href="#">
       <button class="BotonB">Mesas</button>
     </a>
     <div class="estado-usuario">
       <span class="estado"></span>
-      <span class="usuario">Edwar</span>
+      <!-- El nombre de usuario y la mesa se llenarán dinámicamente -->
+      <span class="usuario"></span>
     </div>
   </div>
 
@@ -38,7 +40,10 @@
     <!-- 📋 Panel izquierdo -->
     <div class="left-panel">
       <div class="table-display-box">
-        <span class="table-label">4</span>
+        <!-- Mostramos el icono de la mesa y, debajo, el número de mesa seleccionado.  La imagen se mantiene estática y
+             el número se rellena dinámicamente con JavaScript utilizando el valor almacenado en localStorage. -->
+        <img id="table-icon" src="/src/assets/icon mesa.png" alt="Icono Mesa" class="mesa-icon" />
+        <span id="table-number" class="mesa-number"></span>
       </div>
       <div class="button-group">
         <a href="/src/features/gestion_comandas/GestionComandas.html">
@@ -46,7 +51,10 @@
         </a>
         <button id="btnImprimir" class="action-button">Imprimir</button>
       </div>
-      <button class="action-button">Cerrar cuenta</button>
+      <!-- Botón para cerrar la cuenta.  Se le asigna un identificador para poder
+           capturar el evento desde JavaScript y así reabrir la mesa en el
+           backend. -->
+      <button id="btnCerrarCuenta" class="action-button">Cerrar cuenta</button>
     </div>
 
     <!-- 🧾 Panel derecho: Cuenta -->
@@ -61,6 +69,9 @@
       </table>
 
       <div class="totales">
+        <!-- Incluimos el número de personas seleccionado en la apertura.  Se rellenará dinámicamente
+             mediante JavaScript a partir de la información guardada en localStorage. -->
+        <p>Número de personas: <span id="num-personas"></span></p>
         <p>Subtotal: <span id="subtotal"></span></p>
         <p>IVA: <span id="iva"></span></p>
         <p>Total: <span id="total"></span></p>

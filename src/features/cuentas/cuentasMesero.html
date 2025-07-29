@@ -14,22 +14,27 @@
      <div class="barra-de-tareas">
     <a href="/src/features/vista_comandas/Comandas.html"><button class="BotonA">Comandar</button></a>
     <button class="BotonB">Cuenta</button>
-    <a href="/src/features/panel_mesa/panelMesaMesero.html"><button class="BotonB">Mesas</button></a>
+    <!-- Enlace a Mesas: se decidirá dinámicamente a qué panel ir según el rol -->
+    <a id="linkMesas" href="#"><button class="BotonB">Mesas</button></a>
     <div class="estado-usuario">
       <span class="estado"></span>
-      <span class="usuario">Edwar</span>
+      <!-- El nombre de usuario se llenará dinámicamente -->
+      <span class="usuario"></span>
     </div>
   </div>
 
     <main class="main-container">
         <div class="left-panel">
             <div class="table-display-box">
-                <span class="table-label">Mesa</span>
+                <!-- Mostramos el icono de la mesa y, debajo, el número de mesa.  Estos valores se
+                     rellenan dinámicamente a partir de localStorage cuando la página se carga. -->
+                <img id="table-icon" src="/src/assets/icon mesa.png" alt="Icono Mesa" class="mesa-icon" />
+                <span id="table-number" class="mesa-number"></span>
             </div>
             <div class="button-group">
                 <button class="action-button secondary"><a href="/src/features/gestion_comandas/GestionComandasM.html"></a>Visualizar</button>
             </div>
-            <button class="action-button">Imprimr</button>
+            <button class="action-button">Imprimir</button>
         </div>
 
         <div class="right-panel">
@@ -59,6 +64,12 @@
                     </tr>
                 </tbody>
                 <tfoot>
+                    <!-- Añadimos una fila para mostrar el número de personas asociado a la cuenta.  El valor se
+                         rellenará dinámicamente mediante JavaScript. -->
+                    <tr>
+                        <td>Número de personas</td>
+                        <td id="num-personas"></td>
+                    </tr>
                     <tr>
                         <td>Subtotal</td>
                         <td>$490.00</td>
@@ -75,6 +86,45 @@
             </table>
         </div>
     </main>
+
+    <!-- Script para dinamizar el usuario y redirección de Mesas en la vista de cuentas del mesero -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const nombreUsuario = localStorage.getItem('usuario_nombre') || '';
+        const mesaNumero = localStorage.getItem('mesa_numero') || '';
+        const userSpan = document.querySelector('.barra-de-tareas .usuario');
+        if (userSpan) {
+          if (nombreUsuario && mesaNumero) {
+            userSpan.textContent = `${nombreUsuario} | Mesa ${mesaNumero}`;
+          } else if (nombreUsuario) {
+            userSpan.textContent = nombreUsuario;
+          }
+        }
+        // Mostrar el número de mesa en el panel izquierdo.
+        const tableNumberElem = document.getElementById('table-number');
+        if (tableNumberElem) {
+          tableNumberElem.textContent = mesaNumero || '';
+        }
+        // Rellenar el número de personas si está almacenado en localStorage.
+        const numPersonasStored = localStorage.getItem('mesa_num_personas');
+        const numPersonasElem = document.getElementById('num-personas');
+        if (numPersonasElem && numPersonasStored) {
+          numPersonasElem.textContent = numPersonasStored;
+        }
+        const linkMesas = document.getElementById('linkMesas');
+        if (linkMesas) {
+          linkMesas.addEventListener('click', function(e) {
+            e.preventDefault();
+            const rol = localStorage.getItem('user_role');
+            if (rol === 'Mesero') {
+              window.location.href = '/src/features/panel_mesa/panelMesaMesero.html';
+            } else {
+              window.location.href = '/src/features/panel_mesa/PanelMesa.html';
+            }
+          });
+        }
+      });
+    </script>
 
 </body>
 </html>

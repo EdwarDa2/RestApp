@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apertura de mesas</title>
-  <link rel="stylesheet" href="/src/features/apertura_mesa/style/style.css" />
+  <link rel="stylesheet" href="/src/features/apertura_mesa/style/styleM.css" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
 </head>
 <body>
@@ -20,7 +20,6 @@
         </div>
 
 
-
         <div class="acciones">
           <button class="guardar" id="open-guardar-modal">Guardar</button>
           <button class="cancelar" id="open-cancelar-modal">Cancelar</button>
@@ -34,6 +33,12 @@
         </div>
       </div>
     </div>
+    <!--
+      Cuando un mesero regresa desde la vista de apertura de mesa debe volver
+      a su panel de mesas correspondiente.  La versión original apuntaba
+      incorrectamente al Panel de administrador.  Ajustamos el enlace para
+      dirigir de nuevo al listado de mesas del mesero.
+    -->
     <a href="/src/features/panel_mesa/panelMesaMesero.html" class="volver">Volver al listado de mesas</a>
   </div>
 
@@ -53,6 +58,6 @@
     </div>
   </div>
 
-  <script src="/src/features/apertura_mesa/java/java.js"></script>
+  <script src="/src/features/apertura_mesa/java/script_meseo.js"></script>
 </body>
 </html>

@@ -107,17 +107,31 @@ body {
         }
 
         .table-display-box {
+            /* Caja que muestra el icono y número de la mesa en la vista de cuentas.  Se centra el contenido
+               vertical y horizontalmente y se adopta un diseño en columna para colocar la imagen encima
+               del número de mesa. */
             border: 2px solid #F39C12;
             border-radius: 20px;
             height: 300px;
             display: flex;
-            justify-content: center; 
-            align-items: flex-end;   
-            padding-bottom: 140px;    
-            box-sizing: border-box;  
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        .table-label {
+        /* Imagen del icono de la mesa que se muestra en la sección de cuentas.  Ajustamos su tamaño y
+           evitamos que se deforme utilizando object-fit: contain. */
+        .mesa-icon {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        /* Texto que muestra el número de la mesa debajo del icono. */
+        .mesa-number {
             font-size: 28px;
             font-weight: 600;
         }

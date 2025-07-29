@@ -5,8 +5,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     mesa_id = parseInt(localStorage.getItem("mesa_id"));
     mesa_numero = localStorage.getItem("mesa_numero");
 
+    // Mostrar el nombre del usuario y el número de mesa en la barra de tareas
+    const nombreUsuario = localStorage.getItem('usuario_nombre') || '';
+    const usuarioSpan = document.querySelector('.barra-de-tareas .usuario');
+    if (usuarioSpan) {
+        if (nombreUsuario && mesa_numero) {
+            usuarioSpan.textContent = `${nombreUsuario} | Mesa ${mesa_numero}`;
+        } else if (nombreUsuario) {
+            usuarioSpan.textContent = nombreUsuario;
+        }
+    }
+
     if (!mesa_id || !mesa_numero) {
         alert("⚠ No se seleccionó ninguna mesa. Redirigiendo...");
+        const rol = localStorage.getItem('user_role');
+        if (rol === 'Mesero') {
+            return window.location.href = "/src/features/panel_mesa/panelMesaMesero.html";
+        }
         return window.location.href = "/src/features/panel_mesa/PanelMesa.html";
     }
 
@@ -84,7 +99,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     document.getElementById('confirmarSalir')?.addEventListener('click', () => {
-        window.location.href = "/src/features/panel_mesa/PanelMesa.html";
+        // Redirigir a la vista de panel de mesas según el rol del usuario
+        const rol = localStorage.getItem('user_role');
+        if (rol === 'Mesero') {
+            window.location.href = "/src/features/panel_mesa/panelMesaMesero.html";
+        } else {
+            window.location.href = "/src/features/panel_mesa/PanelMesa.html";
+        }
     });
 
     const btnSumar = document.getElementById('btnSumar');
