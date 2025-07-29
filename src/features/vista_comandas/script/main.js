@@ -311,37 +311,40 @@ document.getElementById('btn-enviar').addEventListener('click', function (e) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({
         unit: 'mm',
-        format: [58, 80]
+        format: [58, 80]  // formato ticket 58mm
     });
 
+    // 🟢 Fuente más grande y margen izquierdo casi nulo
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(5);
+    doc.setFontSize(9);  // Aumentado
+    doc.text('RESTAPP', 29, 8, { align: 'center' });
+
+    let y = 14;
 
     doc.setFontSize(8);
-    doc.text('RESTAPP', 10, 10);
-
-    const columnWidth = 18;
-    const startX = 10;
-    let yPosition = 18;
-
-    doc.text('Cantidad', startX, yPosition);
-    doc.text('Producto', startX + columnWidth + 2, yPosition);
-    yPosition += 5;
+    doc.text('Cant.', 1, y);
+    doc.text('Producto', 12, y);
+    y += 4;
 
     productos.forEach(producto => {
-        doc.text(producto.cantidad, startX, yPosition);
-        const maxWidth = 35;
-        const nombreDividido = doc.splitTextToSize(producto.nombre, maxWidth);
-        doc.text(nombreDividido, startX + columnWidth + 2, yPosition);
-        yPosition += (nombreDividido.length * 5);
+        doc.text(`${producto.cantidad}`, 1, y);
+
+        const nombreDividido = doc.splitTextToSize(producto.nombre, 42);
+        doc.text(nombreDividido, 12, y);
+
+        y += nombreDividido.length * 4;
     });
 
-    if (comentario) {
-        yPosition += 4;
-        doc.text('Comentario:', startX, yPosition);
-        yPosition += 5;
-        doc.text(comentario, startX, yPosition);
+    if (comentario.trim()) {
+        y += 4;
+        doc.setFontSize(7.5);
+        doc.text('Comentario:', 1, y);
+        y += 4;
+        const comentarioDividido = doc.splitTextToSize(comentario, 50);
+        doc.text(comentarioDividido, 1, y);
+        y += comentarioDividido.length * 4;
     }
 
     doc.save('comanda.pdf');
 });
+

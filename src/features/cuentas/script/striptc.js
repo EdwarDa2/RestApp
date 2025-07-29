@@ -122,59 +122,57 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById('btnImprimir').addEventListener('click', () => {
   const { jsPDF } = window.jspdf;
 
-  // Convertir 58mm a puntos (1 mm = 2.83465 puntos)
-  const anchoTicket = 58 * 2.83465;
-  const altoTicket = 150 * 2.83465; // Reducido el alto para ajustar más datos en el ticket
-
   const doc = new jsPDF({
     unit: 'mm',
-    format: [anchoTicket, altoTicket]  // Establecer el tamaño de página como 58mm de ancho y alto reducido
+    format: [58, 200], // ancho 58mm, alto extendido para evitar corte
   });
 
-  // Encabezado ajustado al ancho de 58 mm
-  doc.setFontSize(14); // Aumenta el tamaño de la fuente del encabezado
-  doc.text("Restapp", 10, 10);  // Ajusta el título dentro del tamaño de 58 mm
-  doc.setFontSize(8); // Tamaño de fuente más pequeño para la ciudad
-  doc.text("Suchiapa, CHIS", 10, 18);  // Ajusta la ciudad debajo del título
-  
-  // Línea decorativa que separa la ciudad del contenido (ajustada a 58 mm)
-  doc.setLineWidth(0.5); // Grosor de la línea
-  doc.line(10, 19, anchoTicket - 10, 19); // Línea decorativa debajo de la ciudad
+  doc.setFontSize(10);
+  doc.text("Restapp", 29, 8, { align: "center" });
 
-  let y = 25; // Ajusta la posición inicial para los items
+  doc.setFontSize(7);
+  doc.text("Suchiapa, CHIS", 29, 13, { align: "center" });
 
-  // Agrega los items de la tabla
-  const filas = document.querySelectorAll('#tablaCuenta tr');
+  // Línea divisoria
+  doc.setLineWidth(0.2);
+  doc.line(2, 16, 56, 16);
+
+  let y = 20;
+
   doc.setFont(undefined, 'bold');
-  doc.text("Item", 10, y); // Ajusta la posición del texto "Item"
-  doc.text("Precio", 40, y); // Acomoda "Precio" a la derecha, dentro del ancho de 58 mm
+  doc.text("Item", 2, y);
+  doc.text("Precio", 47, y, { align: 'right' });
   doc.setFont(undefined, 'normal');
-  y += 5; // Reduce el espacio entre las filas
+  y += 4;
+
+  const filas = document.querySelectorAll('#tablaCuenta tr');
 
   filas.forEach(fila => {
     const columnas = fila.querySelectorAll('td');
     const item = columnas[0]?.innerText || '';
     const precio = columnas[1]?.innerText || '';
-    doc.text(item, 10, y); // Alinea los items a la izquierda
-    doc.text(precio, 40, y); // Alinea los precios a la derecha
-    y += 6; // Reduce el espacio entre las filas
+
+    const itemLines = doc.splitTextToSize(item, 44); // 44mm disponibles para "Item"
+    doc.text(itemLines, 2, y);
+    doc.text(precio, 47, y, { align: 'right' });
+
+    y += itemLines.length * 4;
   });
 
-  // Acomoda los subtotales en la columna "Item"
-  y += 5; // Ajusta el espacio antes de subtotales
+  y += 3;
   doc.setFont(undefined, 'bold');
-  doc.text("Subtotal:", 10, y);  // Ajusta "Subtotal" dentro de la columna "Item"
-  doc.text(document.getElementById('subtotal').innerText, 40, y);  // Deja el precio a la derecha
-  y += 5;
-  doc.text("IVA:", 10, y);  // Ajusta "IVA" dentro de la columna "Item"
-  doc.text(document.getElementById('iva').innerText, 40, y);  // Deja el precio a la derecha
-  y += 5;
-  doc.text("Total:", 10, y);  // Ajusta "Total" dentro de la columna "Item"
-  doc.text(document.getElementById('total').innerText, 40, y);  // Deja el precio a la derecha
+  doc.text("Subtotal:", 2, y);
+  doc.text(document.getElementById('subtotal').innerText, 47, y, { align: 'right' });
+  y += 4;
+  doc.text("IVA:", 2, y);
+  doc.text(document.getElementById('iva').innerText, 47, y, { align: 'right' });
+  y += 4;
+  doc.text("Total:", 2, y);
+  doc.text(document.getElementById('total').innerText, 47, y, { align: 'right' });
 
-  // Guarda el PDF
   doc.save("cuenta_restapp.pdf");
 });
+
 
 // Maneja el cierre de la cuenta.  Este botón permite liberar la mesa y
 // actualizar su estado en el servidor.  También redirige al panel de
